@@ -3,33 +3,23 @@ from django.urls import reverse, resolve
 from .views import *
 
 
-class test_follow_url_resolves(SimpleTestCase):
-    def test_list_url_is_resolved(self):
-        url = reverse('follow')
-        self.assertEquals(resolve(url).func, follow)
+class test_core_url_resolves(SimpleTestCase):
+    def test_home_url_resolves(self):
+        url = reverse('home')
+        self.assertEqual(resolve(url).func, home)
 
-    def test_signup_url_resolves(self):
-        url = reverse('signup')
-        self.assertEquals(resolve(url).func.view_class, SignUpView)
+    def test_post_url_resolves(self):
+        url = reverse('post', args=['some_str'])
+        self.assertEqual(resolve(url).func, post)
 
-    def test_login_url_resolves(self):
-        url = reverse('login')
-        self.assertEquals(resolve(url).func.view_class, LoginView)
+    def test_like_url_resolves(self):
+        url = reverse('like')
+        self.assertEqual(resolve(url).func, like)
 
-    def test_profile_url_resolves(self):
-        url = reverse('profile', args=['some_str'])
-        self.assertEquals(resolve(url).func.view_class, ProfileView)
+    def test_delete_url_resolves(self):
+        url = reverse('delete', args=['some_str'])
+        self.assertEqual(resolve(url).func, deletepost)
 
-    def test_settings_url_resolves(self):
-        url = reverse('settings')
-        self.assertEquals(resolve(url).func.view_class, SettingsView)
-
-    def test_password_url_resolves(self):
-        url = reverse('password')
-        self.assertEquals(resolve(url).func, PasswordChangeView)
-
-    def test_logout_url_resolves(self):
-        url = reverse('logout')
-        self.assertEquals(resolve(url).func, LogoutView)
-
-    
+    def test_search_url_resolves(self):
+        url = reverse('search')
+        self.assertEqual(resolve(url).func, search)

@@ -10,11 +10,12 @@ class TestViews(TestCase):
         self.credentials = {
             'username': 'arash1',
             'password': 'arash1'}
-        user = User.objects.create_user(**self.credentials)
+        self.credentials_with_email = {**self.credentials, 'email': 'arash1@example.com'}
+        user = User.objects.create_user(**self.credentials_with_email)
 
     def test_loginview_GET(self):    
         response = self.client.get(self.login)
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'account/login.html')
 
     def test_loginview_POST(self):

@@ -1,23 +1,25 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from .models import *
+from account.models import User
 
 class TestViews(TestCase):
-    
+
     def setUp(self):
         self.client = Client()
-        self.login  = reverse("login")
+        self.home = reverse("home")
         self.credentials = {
             'username': 'arash1',
+            'email': 'arash1@example.com',
             'password': 'arash1'}
-        user = User.objects.create_user(**self.credentials)
+        self.user = User.objects.create_user(**self.credentials)
 
-    def test_loginview_GET(self):    
-        response = self.client.get(self.login)
-        self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'account/login.html')
+    def test_home_redirects_when_logged_out(self):
+        response = self.client.get(self.home)
+        self.assertEqual(response.status_code, 302)
 
-    def test_loginview_POST(self):
-        response = self.client.post(self.login, data=self.credentials, follow=True)
-        self.assertTrue(response.context['user'].is_authenticated)
-
+    def test_home_GET_when_logged_in(self):
+        self.client.login(username='arash1', password='arash1')
+        response = self.client.get(self.home)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'socialmedia/index.html')

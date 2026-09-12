@@ -1,70 +1,36 @@
 from django.test import TestCase
-from backend.account.forms import *
-from .forms import *
+from .forms import PostUploadForm, SearchForm
+from django.core.files.uploadedfile import SimpleUploadedFile
+
 
 class TestForms(TestCase):
-    
-    def setUp(self):
-        self.credentials = {
-            'username': 'testuser',
-            'password': 'secret'}
-        self.user=User.objects.create_user(**self.credentials)
-    
-    def test_UserLoginForm_valid_data(self):
-        form = UserLoginForm(data={
-            'username':'testuser',
-            'password':'secret',
-        })
 
+    # Minimal valid 1x1 GIF payload — Django's ImageField validates actual
+    # image content (via Pillow), so plain bytes like b'file_content' fail.
+    VALID_GIF = (
+        b'GIF87a\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+        b'!\xf9\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00'
+        b'\x00\x02\x02D\x01\x00;'
+    )
+
+    def test_PostUploadForm_valid_data(self):
+        image = SimpleUploadedFile(
+            'test.gif', self.VALID_GIF, content_type='image/gif')
+        form = PostUploadForm(data={'caption': 'hello'}, files={'image': image})
         self.assertTrue(form.is_valid())
 
-    def test_UserLoginForm_no_data(self):
-        form = UserLoginForm(data={})
-
+    def test_PostUploadForm_no_data(self):
+        form = PostUploadForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
+        # Both 'image' and 'caption' are required on this form (the form
+        # re-declares caption without required=False, unlike the model).
+        self.assertEqual(len(form.errors), 2)
 
-    def test_UserRegisterForm_valid_data(self):
-        form = UserRegisterForm(data={
-            'email':'test@gmail.com',
-            'username':'test',
-            'password1':'testpassword',
-            'password2':'testpassword',
-            'first_name':'test',
-            'last_name':'test',
-        })
+    def test_SearchForm_valid_data(self):
+        form = SearchForm(data={'search': 'arash'})
         self.assertTrue(form.is_valid())
 
-    def test_UserRegisterForm_no_data(self):
-        form = UserRegisterForm(data={})
+    def test_SearchForm_no_data(self):
+        form = SearchForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 6)
-
-    def test_UserSettingsForm_valid_data(self):
-        form = UserSettingsForm(data={
-            'email':'test@gmail.com',
-            'username':'test',
-            'first_name':'test',
-            'last_name':'test',
-        })
-        self.assertTrue(form.is_valid())
-
-    def test_UserSettingsForm_no_data(self):
-        form = UserSettingsForm(data={})
-        self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
-
-    
-    def test_PasswordChangeForm_valid_data(self):
-        form = MyPasswordChangeForm(user=self.user, data={
-            'old_password':'secret',
-            'new_password1':'testpassword',
-            'new_password2':'testpassword',
-        })
-        print(form.errors)
-        self.assertTrue(form.is_valid())
-
-    def test_PasswordChangeForm_no_data(self):
-        form = MyPasswordChangeForm(user=self.user, data={})
-        self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 3)
+        self.assertEqual(len(form.errors), 1)

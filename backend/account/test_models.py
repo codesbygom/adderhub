@@ -15,10 +15,10 @@ class TestModels(TestCase):
         self.user.save()
     
     def test_UserModel(self):
-        self.assertEquals("test@gmail.com", self.user.email)
-        self.assertEquals("testusername", self.user.username)
-        self.assertEquals("testfirstname", self.user.first_name)
-        self.assertEquals("testlastname", self.user.last_name)
+        self.assertEqual("test@gmail.com", self.user.email)
+        self.assertEqual("testusername", self.user.username)
+        self.assertEqual("testfirstname", self.user.first_name)
+        self.assertEqual("testlastname", self.user.last_name)
         self.assertTrue(self.user.check_password('secret'))   
 
     def test_create_user(self):

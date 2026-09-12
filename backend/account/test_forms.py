@@ -7,6 +7,7 @@ class TestForms(TestCase):
     def setUp(self):
         self.credentials = {
             'username': 'testuser',
+            'email': 'testuser@example.com',
             'password': 'secret'}
         self.user=User.objects.create_user(**self.credentials)
     
@@ -22,7 +23,7 @@ class TestForms(TestCase):
         form = UserLoginForm(data={})
 
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
+        self.assertEqual(len(form.errors), 2)
 
     def test_UserRegisterForm_valid_data(self):
         form = UserRegisterForm(data={
@@ -38,7 +39,7 @@ class TestForms(TestCase):
     def test_UserRegisterForm_no_data(self):
         form = UserRegisterForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 6)
+        self.assertEqual(len(form.errors), 6)
 
     def test_UserSettingsForm_valid_data(self):
         form = UserSettingsForm(data={
@@ -52,7 +53,7 @@ class TestForms(TestCase):
     def test_UserSettingsForm_no_data(self):
         form = UserSettingsForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 2)
+        self.assertEqual(len(form.errors), 2)
 
     
     def test_PasswordChangeForm_valid_data(self):
@@ -67,4 +68,4 @@ class TestForms(TestCase):
     def test_PasswordChangeForm_no_data(self):
         form = MyPasswordChangeForm(user=self.user, data={})
         self.assertFalse(form.is_valid())
-        self.assertEquals(len(form.errors), 3)
+        self.assertEqual(len(form.errors), 3)

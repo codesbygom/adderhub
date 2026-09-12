@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     # third party apps
     'crispy_forms',
+    'crispy_bootstrap4',
     'widget_tweaks',
     'corsheaders',
     # django rest framework and simple jwt
@@ -181,5 +182,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS=[os.path.join(BASE_DIR,"static"),]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

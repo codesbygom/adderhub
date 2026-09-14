@@ -34,7 +34,6 @@
 
     padding: var(--btn-padding);
     font-weight: 500;
-    border-collapse: collapse; 
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: all 300ms ease;
@@ -232,7 +231,7 @@ img{
 }
 
 .text-muted{
-    color:var(--color-gray)
+    color:var(--color-muted)
 }
 
 /* =================navbar================== */
@@ -268,7 +267,7 @@ nav .search-bar input[type="search"]{
 }
 
 nav .search-bar input[type="search"]::placeholder{
-    color: var(--color-gray);
+    color: var(--color-muted);
 }
 
 nav .create{
@@ -336,7 +335,7 @@ main .container .left .profile{
 
 .left .sidebar i{
     font-size: 1.2rem;
-    color: var(--color-gray);
+    color: var(--color-muted);
     margin-left: 2rem;
     position: relative;
 }
@@ -640,7 +639,7 @@ main .container .right{
     }
 
     .post-create .textarea{
-        font-size: 00.7rem;
+        font-size: 0.7rem;
     }
 
     .post-create::before{
@@ -686,5 +685,4 @@ main .container .right{
 
 .delete-btn{
     background: transparent;
-    background-color: transparent;
 }

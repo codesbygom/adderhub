@@ -15,6 +15,7 @@
     --color-dark: hsl(252,30%,17%);
     --color-light: hsl(252,30%,95%);
     --color-gray: hsl(252,15%,65%);
+    --color-muted: hsl(252,15%,45%);
     --color-primary:hsl(252,75%,60%);
     --color-secondary:hsl(252,100%,90%);
     --color-success:hsl(120,95%,65%);
@@ -57,7 +58,6 @@ a:hover{
     display: inline-block;
     padding: var(--btn-padding);
     font-weight: 500;
-    border-collapse: collapse;
     border-radius: var(--border-radius);
     cursor: pointer;
     transition: all 300ms ease;

@@ -24,7 +24,7 @@ def home(request):
     posts_with_likes = [(post, post.is_liked_by(request.user)) for post in posts]
 
     context = {'posts': posts_with_likes, 'form': form}
-    return render(request, 'socialmedia/index.html', context=context)
+    return render(request, 'core/index.html', context=context)
 
 
 @login_required
@@ -32,7 +32,7 @@ def post(request, pk):
     post = get_object_or_404(Post, id=pk)
     posts_with_likes = [(post, post.is_liked_by(request.user))]
     context = {'posts': posts_with_likes}
-    return render(request, 'socialmedia/post-detail.html', context=context)
+    return render(request, 'core/post-detail.html', context=context)
 
 
 @login_required
@@ -67,7 +67,7 @@ def search(request):
         users = User.objects.search_users(query, exclude_user=request.user)
 
     context = {'query': users if users and users.exists() else None}
-    return render(request, 'socialmedia/search.html', context=context)
+    return render(request, 'core/search.html', context=context)
 
 
 @login_required
@@ -82,7 +82,7 @@ def post_comments(request, post_id):
 
     comments = Comment.objects.get_post_comments(post)
     context = {'post': post, 'comments': comments}
-    return render(request, 'socialmedia/post-comments.html', context=context)
+    return render(request, 'core/post-comments.html', context=context)
 
 
 @login_required

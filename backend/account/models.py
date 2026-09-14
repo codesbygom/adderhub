@@ -47,8 +47,8 @@ class User(AbstractUser):
     username          = models.CharField(max_length=50, blank=False, null=False, unique=True)  
     email             = models.EmailField(_('Email Address'), max_length=50, unique=True)
     is_email_verified = models.BooleanField(default=False)
-    first_name        = models.CharField(max_length=150, blank=True, null=True)
-    last_name         = models.CharField(max_length=150, blank=True, null=True)
+    first_name        = models.CharField(max_length=150, blank=False, null=True)
+    last_name         = models.CharField(max_length=150, blank=False, null=True)
     is_staff          = models.BooleanField(default=False, verbose_name='staff')
     bio               = models.TextField(blank=True, max_length=500, help_text='Tell us about yourself')
     profile_img       = models.ImageField(

@@ -14,11 +14,11 @@ class UserRegisterForm(UserCreationForm):
                                  ,help_text=mark_safe("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."))
     
     first_name = forms.CharField(widget= forms.TextInput
-                                 (attrs={'placeholder':'First Name'}))
-    
+                                 (attrs={'placeholder':'First Name*'}))
+
     last_name  = forms.CharField(widget= forms.TextInput
-                           (attrs={'placeholder':'Last Name'}))
-    
+                           (attrs={'placeholder':'Last Name*'}))
+
     password1  = forms.CharField(widget=forms.PasswordInput
                                  (attrs={'placeholder':'Password*'}),help_text=mark_safe('Your password can’t be too similar to your other personal information.<br/>Your password must contain at least 8 characters.<br/>Your password can’t be a commonly used password.<br/>Your password can’t be entirely numeric.'))
     
@@ -39,11 +39,11 @@ class UserSettingsForm(UserChangeForm):
                                  (attrs={'placeholder':'Username*'})
                                  ,help_text=mark_safe("Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."))
     
-    first_name = forms.CharField(required = False,widget= forms.TextInput
-                                 (attrs={'placeholder':'First Name'}))
-    
-    last_name  = forms.CharField(required = False,widget= forms.TextInput
-                           (attrs={'placeholder':'Last Name'}))
+    first_name = forms.CharField(widget= forms.TextInput
+                                 (attrs={'placeholder':'First Name*'}))
+
+    last_name  = forms.CharField(widget= forms.TextInput
+                           (attrs={'placeholder':'Last Name*'}))
     
     bio  = forms.CharField(required = False,widget= forms.TextInput
                            (attrs={'placeholder':'Bio'}))

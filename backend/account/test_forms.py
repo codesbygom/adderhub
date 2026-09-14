@@ -53,7 +53,8 @@ class TestForms(TestCase):
     def test_UserSettingsForm_no_data(self):
         form = UserSettingsForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 2)
+        # username, email, first_name and last_name are all required now.
+        self.assertEqual(len(form.errors), 4)
 
     
     def test_PasswordChangeForm_valid_data(self):

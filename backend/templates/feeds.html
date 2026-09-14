@@ -9,7 +9,7 @@
                             <img src="{% static 'images/profile_photo.png' %}">
                         </div>
                         <div class="ingo">
-                            <a href="{% url 'profile' username=user.username %}" style="color:black;">
+                            <a href="{% url 'profile' username=user.username %}" class="username-link">
                                 <h3>{{field.0.user.username}}</h3>
                             </a>
                             <small>{{field.0.creation_time}}</small>
@@ -47,7 +47,7 @@
                 <div class="caption">
                     <p>
                         <b>
-                            <a href="{% url 'profile' username=user.username %}" style="color:black;" >
+                            <a href="{% url 'profile' username=user.username %}" class="username-link">
                                 {{field.0.user.username}}
                             </a>
                         </b>

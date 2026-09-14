@@ -450,6 +450,10 @@ main .container .left .profile{
     padding-bottom: 0.6rem;
 }
 
+.username-link{
+    color: inherit;
+}
+
 .middle .feed .action-button .text-muted{
     font-size: 0.9rem;
 }

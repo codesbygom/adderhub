@@ -8,12 +8,14 @@
 
 {% block main %}
     <div class="wrapper">
-        <a href="profile-bg d-block"></a>
+        <div class="profile-bg">
+            <img src="{{ object.background_img.url }}" alt="">
+        </div>
         <div>
             <div class="row">
                 <div class="row1">
                     <a href="#" class="profile-link">
-                        <img src="{% static '/images/profile_photo.png'  %}" class="profile-img" alt="">
+                        <img src="{{ object.profile_img.url }}" class="profile-img" alt="">
                     </a>
                     <div class="profile-marg">
                         <div class="">

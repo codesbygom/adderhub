@@ -6,7 +6,7 @@
                 <div class="head">
                     <div class="user">
                         <div class="profile-photo">
-                            <img src="{% static 'images/profile_photo.png' %}">
+                            <img src="{{ field.0.user.profile_img.url }}" alt="">
                         </div>
                         <div class="ingo">
                             <a href="{% url 'profile' username=user.username %}" class="username-link">

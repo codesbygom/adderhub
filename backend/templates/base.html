@@ -85,14 +85,16 @@
                     <div class="heading">
                         <h4>Suggestions</h4>
                     </div>
-                    <div class="suggest">            
-                        <div class="profile-photo">
-                            <img src="{% static 'images/profile_photo.png' %}" alt="profpic">
+                    {% for suggestion in suggestions %}
+                        <div class="suggest">
+                            <div class="profile-photo">
+                                <img src="{{ suggestion.profile_img.url }}" alt="profpic">
+                            </div>
+                            <div class="ingo">
+                                <h3>{{ suggestion.username }}</h3>
+                            </div>
                         </div>
-                        <div class="ingo">
-                            <h3>Milad Jafary</h3>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

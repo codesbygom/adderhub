@@ -3,6 +3,7 @@
 
 ###Arash Ignores
 media
+Logo/
 backend/staticfiles
 .venv
 venv

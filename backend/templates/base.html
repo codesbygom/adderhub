@@ -19,7 +19,9 @@
     <nav>
         <div class="container">
             <h2 class="logo">
-                <a href="{% url 'home' %}">Social Media</a>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.png' %}" alt="AdderHub" class="logo-img">
+                </a>
             </h2>
             <div class="search-bar">
                 <form id ="search-form" action="{% url "search" %}" enctype="multipart/form-data" method="get">

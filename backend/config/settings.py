@@ -19,22 +19,42 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
+#
+# All of the settings below read from environment variables so the same
+# codebase can run locally (with safe defaults) and in production (where
+# every variable below should be set explicitly). See README.md for the
+# exact variables to set when deploying.
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!-@n+6z@9%_rk*rl-wu%r&(7z7pdw&0@yly#+d$l$zs4#becgr'
+SECRET_KEY = os.environ.get(
+    'DJANGO_SECRET_KEY',
+    'django-insecure-!-@n+6z@9%_rk*rl-wu%r&(7z7pdw&0@yly#+d$l$zs4#becgr',
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = []
-
-CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5173",
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',')
+    if host.strip()
 ]
 
-CSRF_TRUSTED_ORIGIN = [
-    "http://127.0.0.1:5173",
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        'DJANGO_CORS_ALLOWED_ORIGINS', 'http://127.0.0.1:5173'
+    ).split(',')
+    if origin.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        'DJANGO_CSRF_TRUSTED_ORIGINS', 'http://127.0.0.1:5173'
+    ).split(',')
+    if origin.strip()
 ]
 
 # Application definition
@@ -178,7 +198,9 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 
 STATIC_URL = '/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+# Where `collectstatic` gathers files for production (must differ from the
+# STATICFILES_DIRS source folder above). Not used by `runserver` locally.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS=[os.path.join(BASE_DIR,"static"),]
 

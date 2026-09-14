@@ -3,6 +3,7 @@
 
 ###Arash Ignores
 media
+backend/staticfiles
 .venv
 venv
 .env

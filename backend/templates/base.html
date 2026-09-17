@@ -9,6 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdderHub | {% block title%} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
@@ -84,14 +85,16 @@
                     <div class="heading">
                         <h4>Suggestions</h4>
                     </div>
-                    <div class="suggest">            
-                        <div class="profile-photo">
-                            <img src="{% static 'images/profile_photo.png' %}" alt="profpic">
+                    {% for suggestion in suggestions %}
+                        <div class="suggest">
+                            <div class="profile-photo">
+                                <img src="{{ suggestion.profile_img.url }}" alt="profpic">
+                            </div>
+                            <div class="ingo">
+                                <h3>{{ suggestion.username }}</h3>
+                            </div>
                         </div>
-                        <div class="ingo">
-                            <h3>Milad Jafary</h3>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
@@ -109,6 +112,7 @@
             }
         }
     </script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>
 

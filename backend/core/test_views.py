@@ -22,4 +22,4 @@ class TestViews(TestCase):
         self.client.login(username='arash1', password='arash1')
         response = self.client.get(self.home)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'socialmedia/index.html')
+        self.assertTemplateUsed(response, 'core/index.html')

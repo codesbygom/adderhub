@@ -57,6 +57,12 @@ class User(AbstractUser):
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
         help_text='Upload a profile picture (JPG, JPEG, PNG, GIF only)'
     )
+    background_img    = models.ImageField(
+        upload_to='background_images',
+        default='background_images/default.png',
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
+        help_text='Upload a profile background picture (JPG, JPEG, PNG, GIF only)'
+    )
     follows           = models.ManyToManyField('self', related_name='followed_by', blank=True, symmetrical=False)
 
     objects = CustomUserManager()

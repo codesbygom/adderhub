@@ -8,12 +8,20 @@
 
 {% block main %}
     <div class="wrapper">
-        <a href="profile-bg d-block"></a>
+        <div class="profile-bg{% if request.user == object %} avatar-edit{% endif %}">
+            <img src="{{ object.background_img.url }}" alt="">
+            {% if request.user == object %}
+                <button type="button" class="avatar-edit-btn bi bi-pencil-fill" data-target="background" aria-label="Change background picture"></button>
+            {% endif %}
+        </div>
         <div>
             <div class="row">
                 <div class="row1">
-                    <a href="#" class="profile-link">
-                        <img src="{% static '/images/profile_photo.png'  %}" class="profile-img" alt="">
+                    <a href="#" class="profile-link{% if request.user == object %} avatar-edit{% endif %}">
+                        <img src="{{ object.profile_img.url }}" class="profile-img" alt="">
+                        {% if request.user == object %}
+                            <button type="button" class="avatar-edit-btn bi bi-pencil-fill" data-target="avatar" aria-label="Change profile picture"></button>
+                        {% endif %}
                     </a>
                     <div class="profile-marg">
                         <div class="">
@@ -86,5 +94,17 @@
             {%endfor%}
         </div>
     </div>
-    
+
+    {% if request.user == object %}
+        {% csrf_token %}
+        {% include "account/partials/upload_overlay.html" with kind="avatar" %}
+        {% include "account/partials/upload_overlay.html" with kind="background" %}
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+    {% if request.user == object %}
+        <script src="{% static 'js/profile.js' %}"></script>
+    {% endif %}
 {% endblock %}

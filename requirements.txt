@@ -12,6 +12,7 @@ django==6.1.1
     #   crispy-bootstrap4
     #   django-cors-headers
     #   django-crispy-forms
+    #   django-redis
     #   django-widget-tweaks
     #   djangorestframework
     #   djangorestframework-simplejwt
@@ -22,6 +23,8 @@ django-crispy-forms==2.7
     # via
     #   adderhub
     #   crispy-bootstrap4
+django-redis==7.0.0
+    # via adderhub
 django-widget-tweaks==1.5.1
     # via adderhub
 djangorestframework==3.18.1
@@ -47,6 +50,8 @@ pytz==2026.3.post1
     # via drf-yasg
 pyyaml==6.0.3
     # via drf-yasg
+redis==8.1.0
+    # via django-redis
 sqlparse==0.6.0
     # via django
 tzdata==2026.3 ; sys_platform == 'win32'

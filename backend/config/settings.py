@@ -202,6 +202,28 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS source folder above). Not used by `runserver` locally.
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+
+# Cache: use Redis when REDIS_URL is set (e.g. the `redis` service in
+# docker-compose.yml), otherwise fall back to Django's default in-process
+# LocMemCache — so the exact same code works with zero setup on a plain
+# `runserver`/PythonAnywhere deploy, and picks up Redis automatically
+# wherever it's actually available. Every cache.* call site (template
+# tags, future API views, ...) is written against django.core.cache.cache
+# and never needs to know which backend is behind it.
+REDIS_URL = os.environ.get('REDIS_URL')
+
+if REDIS_URL:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': REDIS_URL,
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            },
+        }
+    }
+# else: no CACHES block at all — Django transparently uses LocMemCache.
+
 STATICFILES_DIRS=[os.path.join(BASE_DIR,"static"),]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'

@@ -5,6 +5,7 @@
 media
 Logo/
 backend/staticfiles
+.claude/
 .venv
 venv
 .env

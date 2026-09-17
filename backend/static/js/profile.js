@@ -29,7 +29,7 @@ function setupUploader(kind){
         const formData = new FormData();
         formData.append(kind === 'avatar' ? 'profile_img' : 'background_img', selectedFile);
 
-        const res = await fetch('/settings/upload-image/', {
+        const res = await fetch(overlay.dataset.uploadUrl, {
             method: 'POST',
             headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
             body: formData,

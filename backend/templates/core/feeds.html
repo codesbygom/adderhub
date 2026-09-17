@@ -9,7 +9,7 @@
                             <img src="{{ field.0.user.profile_img.url }}" alt="">
                         </div>
                         <div class="ingo">
-                            <a href="{% url 'profile' username=user.username %}" class="username-link">
+                            <a href="{% url 'profile' username=field.0.user.username %}" class="username-link">
                                 <h3>{{field.0.user.username}}</h3>
                             </a>
                             <small>{{field.0.creation_time}}</small>
@@ -35,19 +35,19 @@
                     {% else %}
                         <span><a href="{% url "like" %}?post_id={{field.0.id}}&amp;next={{ request.path|urlencode }}" class="bi bi-suit-heart-fill"></a></span>
                     {% endif %}
-                    {% if field.0.like_no == 0 %}
+                    {% if field.0.get_likes_count == 0 %}
                     <span class="text-muted">No Likes</span>
-                    {% elif field.0.like_no == 1%}
-                    <span class="text-muted">{{field.0.like_no}} Like</span>
+                    {% elif field.0.get_likes_count == 1%}
+                    <span class="text-muted">{{field.0.get_likes_count}} Like</span>
                     {% else %}
-                    <span class="text-muted">{{field.0.like_no}} Likes</span>
+                    <span class="text-muted">{{field.0.get_likes_count}} Likes</span>
                     {% endif %}
                     </div>
                 </div>
                 <div class="caption">
                     <p>
                         <b>
-                            <a href="{% url 'profile' username=user.username %}" class="username-link">
+                            <a href="{% url 'profile' username=field.0.user.username %}" class="username-link">
                                 {{field.0.user.username}}
                             </a>
                         </b>

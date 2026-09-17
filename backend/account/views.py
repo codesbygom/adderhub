@@ -6,6 +6,10 @@ from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView as SigninView
+from django.views.decorators.http import require_POST
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
+from django.http import JsonResponse
 from .forms import UserRegisterForm, UserLoginForm, UserSettingsForm, MyPasswordChangeForm
 from core.models import Post
 from .models import User
@@ -97,3 +101,33 @@ def follow(request):
         request.user.toggle_follow(user_to_follow)
 
     return HttpResponseRedirect(next_url)
+
+
+# Same extensions the model field itself validates against (account/models.py)
+# — reused here so this endpoint rejects bad uploads before they ever touch
+# the model, since a plain setattr()+save() (below) does NOT run model
+# validators the way a ModelForm would.
+_image_extension_validator = FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])
+
+
+@login_required
+@require_POST
+def upload_image(request):
+    """Handles the avatar/background drag-and-drop uploader on the profile
+    page (see static/js/profile.js) -- a plain AJAX endpoint, not a form."""
+    if 'profile_img' in request.FILES:
+        field_name = 'profile_img'
+    elif 'background_img' in request.FILES:
+        field_name = 'background_img'
+    else:
+        return JsonResponse({'error': 'No image file provided'}, status=400)
+
+    uploaded_file = request.FILES[field_name]
+    try:
+        _image_extension_validator(uploaded_file)
+    except ValidationError as exc:
+        return JsonResponse({'error': exc.messages[0]}, status=400)
+
+    setattr(request.user, field_name, uploaded_file)
+    request.user.save(update_fields=[field_name])
+    return JsonResponse({'ok': True})

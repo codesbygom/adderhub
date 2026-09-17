@@ -1,7 +1,7 @@
 from cProfile import Profile
 from django.contrib import admin
 from django.urls import path
-from .views import SignUpView, LoginView, ProfileView, SettingsView, LogoutView, PasswordChangeView,follow
+from .views import SignUpView, LoginView, ProfileView, SettingsView, LogoutView, PasswordChangeView, follow, upload_image
 
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('profile/<str:username>/',ProfileView.as_view(), name="profile"),
     path('settings/',SettingsView.as_view(),name="settings"),
     path('settings/password/',PasswordChangeView,name="password"),
+    path('settings/upload-image/', upload_image, name='upload_image'),
     path('logout/',LogoutView,name='logout'),
-]  
+]

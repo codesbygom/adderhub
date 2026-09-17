@@ -1,12 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import JsonResponse
 from .forms import PostUploadForm, SearchForm
 from .models import Post, Comment
 from account.models import User
 
 @login_required
 def home(request):
+    # Posting only ever happens through the sidebar "Upload Post" overlay
+    # now (see static/js/index.js's setupPostUploader) -- an AJAX call, not
+    # a normal <form> submit -- so this branch always answers in JSON.
     if request.method == 'POST':
         form = PostUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -15,15 +19,13 @@ def home(request):
                 image=form.cleaned_data['image'],
                 caption=form.cleaned_data['caption']
             )
-            messages.success(request, 'Post created successfully!')
-            return redirect('home')
-    else:
-        form = PostUploadForm()
+            return JsonResponse({'ok': True})
+        return JsonResponse({'error': form.errors.get_json_data()}, status=400)
 
     posts = Post.objects.all().order_by('-creation_time')
     posts_with_likes = [(post, post.is_liked_by(request.user)) for post in posts]
 
-    context = {'posts': posts_with_likes, 'form': form}
+    context = {'posts': posts_with_likes}
     return render(request, 'core/index.html', context=context)
 
 

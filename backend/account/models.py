@@ -42,6 +42,16 @@ class CustomUserManager(BaseUserManager):
             qs = qs.exclude(id=exclude_user.id)
         return qs
 
+    def suggest_users(self, user, limit=5):
+        if not user.is_authenticated:
+            return self.none()
+        return (
+            self.get_queryset()
+            .exclude(id=user.id)
+            .exclude(id__in=user.follows.all())
+            .order_by('-date_joined')[:limit]
+        )
+
 class User(AbstractUser):  
     id                = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username          = models.CharField(max_length=50, blank=False, null=False, unique=True)  

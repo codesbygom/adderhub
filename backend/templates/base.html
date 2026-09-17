@@ -9,6 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AdderHub | {% block title%} {% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
@@ -71,6 +73,10 @@
                         <span><i class="bi bi-gear"></i></span>
                         <h3>Settings</h3>
                     </a>
+                    <button type="button" class="menu-item" id="open-post-upload">
+                        <span><i class="bi bi-plus-square"></i></span>
+                        <h3>Upload Post</h3>
+                    </button>
                 </div>
             </div>
 
@@ -85,33 +91,27 @@
                     <div class="heading">
                         <h4>Suggestions</h4>
                     </div>
+                    {% suggested_users request.user as suggestions %}
                     {% for suggestion in suggestions %}
-                        <div class="suggest">
+                        <a href="{% url 'profile' username=suggestion.username %}" class="suggest">
                             <div class="profile-photo">
                                 <img src="{{ suggestion.profile_img.url }}" alt="profpic">
                             </div>
                             <div class="ingo">
                                 <h3>{{ suggestion.username }}</h3>
                             </div>
-                        </div>
+                        </a>
+                    {% empty %}
+                        <p class="text-muted">No suggestions yet.</p>
                     {% endfor %}
                 </div>
             </div>
         </div>
     </main>
 
+    {% include "core/partials/post_upload_overlay.html" %}
 
     <script src="{% static 'js/index.js' %}"></script>
-    <script type="text/javascript">
-        function showPreview(event){
-            if(event.target.files.length > 0){
-            var src = URL.createObjectURL(event.target.files[0]);
-            var preview = document.getElementById("file-ip-1-preview");
-            preview.src = src;
-            preview.style.display = "block";
-            }
-        }
-    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

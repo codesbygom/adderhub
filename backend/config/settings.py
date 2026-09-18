@@ -157,7 +157,11 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    # Short-lived on purpose: if a token leaks, the exposure window is an
+    # hour, not a month. Clients are expected to use the refresh token
+    # (long-lived, below) to get a new access token instead of staying
+    # logged in on one indefinitely.
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=180),
     'ROTATE_REFRESH_TOKENS': False,
 }

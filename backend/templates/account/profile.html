@@ -17,18 +17,16 @@
         <div>
             <div class="row">
                 <div class="row1">
-                    <a href="#" class="profile-link{% if request.user == object %} avatar-edit{% endif %}">
+                    <div class="profile-link{% if request.user == object %} avatar-edit{% endif %}">
                         <img src="{{ object.profile_img.url }}" class="profile-img" alt="">
                         {% if request.user == object %}
                             <button type="button" class="avatar-edit-btn bi bi-pencil-fill" data-target="avatar" aria-label="Change profile picture"></button>
                         {% endif %}
-                    </a>
+                    </div>
                     <div class="profile-marg">
                         <div class="">
                             <p class="profile-name">{{object.first_name}} {{object.last_name}}</p>
-                            <span>
-                                <a href="#">@<span>{{object.username}}</span></a>
-                            </span>
+                            <span>@{{object.username}}</span>
                         </div>
                     </div>
                 </div>
@@ -47,7 +45,7 @@
             <div class="profile-state">
                 <ul class="profile-Arrange">
                     <li class="profile-details">
-                        <a href="#">
+                        <a href="#profile-posts">
                             <span class="profile-label d-block">
                                 Posts
                             </span>
@@ -57,31 +55,27 @@
                         </a>
                     </li>
                     <li class="profile-details">
-                        <a href="#">
-                            <span class="profile-label d-block">
-                                Followers
-                            </span>
-                            <span class="profile-number">
-                                {{object.followers_count}}
-                            </span>
-                        </a>
+                        <span class="profile-label d-block">
+                            Followers
+                        </span>
+                        <span class="profile-number">
+                            {{object.followers_count}}
+                        </span>
                     </li>
                     <li class="profile-details">
-                        <a href="#">
-                            <span class="profile-label d-block">
-                                Followings
-                            </span>
-                            <span class="profile-number">
-                                {{object.followings_count}}
-                            </span>
-                        </a>
+                        <span class="profile-label d-block">
+                            Followings
+                        </span>
+                        <span class="profile-number">
+                            {{object.followings_count}}
+                        </span>
                     </li>
                 </ul>
             </div>
         </div>
     </div> 
 
-    <div class="profileposts">
+    <div class="profileposts" id="profile-posts">
         <div class="post">
             {%for field in posts%}
                 <div class="photo">

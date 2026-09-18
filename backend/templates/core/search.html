@@ -12,14 +12,14 @@
             <div>
                 <div class="row">
                     <div class="row1">
-                        <a href="" class="profile-link">
+                        <a href="{% url 'profile' username=q.username %}" class="profile-link">
                             <img src="{{ q.profile_img.url }}" class="profile-img" alt="">
                         </a>
                         <div class="profile-marg">
                             <div class="">
                                 <p class="profile-name">{{q.first_name}} {{q.last_name}}</p>
                                 <span>
-                                    <a href="#">@<span>{{q.username}}</span></a>
+                                    <a href="{% url 'profile' username=q.username %}">@{{q.username}}</a>
                                 </span>
                             </div>
                         </div>

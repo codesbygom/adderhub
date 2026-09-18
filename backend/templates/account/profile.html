@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 {% if request.user != object %}
-                    {% if unfollow == True %}
+                    {% if is_following %}
                         <a class="btn btn-primary" href="{% url "follow" %}?username={{object.username}}&amp;next={{ request.path|urlencode }}">Unfollow</a>
                     {% else %}
                         <a class="btn btn-primary" href="{% url "follow" %}?username={{object.username}}&amp;next={{ request.path|urlencode }}">Follow</a>

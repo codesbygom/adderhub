@@ -97,14 +97,3 @@ def delete_comment(request, comment_id):
     else:
         messages.error(request, 'You can only delete your own comments!')
     return redirect('post', pk=post_id)
-
-
-@login_required
-def follow_toggle(request, user_id):
-    target_user = get_object_or_404(User, id=user_id)
-    if User.objects.is_following(request.user, target_user):
-        User.objects.unfollow_user(request.user, target_user)
-    else:
-        User.objects.follow_user(request.user, target_user)
-    next_url = request.GET.get('next', '/')
-    return HttpResponseRedirect(next_url)

@@ -2,6 +2,7 @@ from uuid import uuid4
 from django.db import models
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
+from core.upload import UUIDUploadTo
 from account.models import User
 
 
@@ -21,7 +22,7 @@ class PostManager(models.Manager):
 class Post(models.Model):
     id            = models.UUIDField(primary_key=True, default=uuid4)
     image         = models.ImageField(
-        upload_to='post_images',
+        upload_to=UUIDUploadTo('post_images'),
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
         help_text='Upload an image (JPG, JPEG, PNG, GIF only)'
     )

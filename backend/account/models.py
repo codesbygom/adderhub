@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import FileExtensionValidator
+from core.upload import UUIDUploadTo
 import uuid
 
 class CustomUserManager(BaseUserManager):
@@ -62,13 +63,13 @@ class User(AbstractUser):
     is_staff          = models.BooleanField(default=False, verbose_name='staff')
     bio               = models.TextField(blank=True, max_length=500, help_text='Tell us about yourself')
     profile_img       = models.ImageField(
-        upload_to='profile_images',
+        upload_to=UUIDUploadTo('profile_images'),
         default='profile_images/default.png',
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
         help_text='Upload a profile picture (JPG, JPEG, PNG, GIF only)'
     )
     background_img    = models.ImageField(
-        upload_to='background_images',
+        upload_to=UUIDUploadTo('background_images'),
         default='background_images/default.png',
         validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'gif'])],
         help_text='Upload a profile background picture (JPG, JPEG, PNG, GIF only)'

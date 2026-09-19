@@ -19,6 +19,7 @@
 
     <div class="addpost">
         <div class="post-create">
+            <img src="{% static 'images/logo.png' %}" alt="AdderHub" class="auth-logo">
             <div>
                 <form action="" method="post">
                     {% csrf_token %}
@@ -31,7 +32,7 @@
                     <input type="submit" class="btn btn-primary fontt" value="Create Account" />
                     </form> 
             </div>
-            <div class="">
+            <div class="form-footer-link">
                 have an account?
                 <a href="{% url 'login' %}"> Login</a>
             </div>

@@ -11,17 +11,21 @@
 }
 
 :root{
-    --color-white: hsl(252,30%,100%);
-    --color-dark: hsl(252,30%,17%);
-    --color-light: hsl(252,30%,95%);
-    --color-gray: hsl(252,15%,65%);
-    --color-muted: hsl(252,15%,45%);
-    --color-primary:hsl(252,75%,60%);
-    --color-secondary:hsl(252,100%,90%);
-    --color-success:hsl(120,95%,65%);
-    --color-danger:hsl(0,95%,17%);
-    --color-black:hsl(252,30%,10%);
-    --color-navbar: hsl(220,55%,20%);
+    /* AdderHub palette -- sampled from the snake logo: black body,
+       golden-yellow blotches, cream belly, red tongue. Every color on the
+       site comes from these variables, so this block is the whole theme. */
+    --color-white: #17110B;   /* CARD surface -- snake-body black */
+    --color-dark: #F0B13A;    /* TEXT on cards -- light snake gold (name kept from the old light theme) */
+    --color-light: #2A1D0F;    /* inner surfaces (inputs, hover, active) -- lighter black-brown */
+    --color-page: #F0E2C4;    /* page background behind the cards -- cream belly */
+    --color-gray: #7A6238;    /* borders, placeholders, disabled icons */
+    --color-muted: #C9A24E;   /* secondary text on cards -- dimmer gold */
+    --color-primary: #E39412; /* 'Hub' gold -- buttons, links, focus rings */
+    --color-secondary: #3A2A14; /* subtle highlight on dark cards */
+    --color-success: #4B7A3E;
+    --color-danger: #D9484A;  /* tongue red */
+    --color-black: #0D0906;
+    --color-navbar: #17110B;  /* the logo's own black */
 
     --border-radius:2rem;
     --card-border-radius:1rem;
@@ -33,11 +37,23 @@
     --sticky-top-right:-18rem;
 }
 
+html{
+    /* Belt-and-suspenders: if body's background ever fails to paint the
+       full viewport (see below), this is what shows through instead of
+       the browser's unstyled white/black default. */
+    background: var(--color-page);
+}
+
 body{
     font-family: 'Dosis', sans-serif;
-    color:var(--color-dark);
-    background:var(--color-light);
+    color:var(--color-dark); /* gold: nearly all text sits on dark cards */
+    background:var(--color-page);
     overflow-x: hidden;
+    /* Without this, a short page (e.g. the login form) only paints the
+       background down to where its content ends -- the rest of the
+       viewport is left unstyled, so a forced dark-mode extension colors
+       it separately from (and inconsistently with) the rest of the page. */
+    min-height: 100vh;
 }
 
 :focus-visible{
@@ -71,5 +87,17 @@ a:hover{
 
 .btn-primary{
     background: var(--color-primary);
-    color: white;
+    color: var(--color-black); /* gold + white is only ~2.4:1; black is ~8:1 */
+}
+
+/* Helper text under a submit button (Sign up / Login / Change password
+   links) -- was sitting flush against the button with no breathing room. */
+.form-footer-link{
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--color-muted);
+}
+
+.form-footer-link a{
+    font-weight: 500;
 }

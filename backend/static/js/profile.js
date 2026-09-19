@@ -2,8 +2,8 @@ function setupUploader(kind){
     const overlay  = document.getElementById(`upload-overlay-${kind}`);
     const dropzone = document.getElementById(`dropzone-${kind}`);
     const input    = document.getElementById(`file-${kind}`);
-    const preview  = overlay.querySelector('.preview');
-    let selectedFile = null;
+    const crop = AdderCrop.attach(overlay, kind === 'avatar' ? { aspect: 1, maxSize: 600 } : { aspect: 3, maxSize: 1800 });
+    let hasFile = false;
 
     document.querySelector(`[data-target="${kind}"]`).addEventListener('click', () => overlay.hidden = false);
     overlay.querySelector('[data-close]').addEventListener('click', () => overlay.hidden = true);
@@ -19,15 +19,16 @@ function setupUploader(kind){
 
     function handleFile(file){
         if(!file) return;
-        selectedFile = file;
-        preview.src = URL.createObjectURL(file);
-        preview.hidden = false;
+        hasFile = true;
+        crop.load(file);
     }
 
     overlay.querySelector('[data-save]').addEventListener('click', async () => {
-        if(!selectedFile) return;
+        if(!hasFile) return;
+        const blob = await crop.blob();
+        if(!blob) return;
         const formData = new FormData();
-        formData.append(kind === 'avatar' ? 'profile_img' : 'background_img', selectedFile);
+        formData.append(kind === 'avatar' ? 'profile_img' : 'background_img', blob, crop.filename());
 
         const res = await fetch(overlay.dataset.uploadUrl, {
             method: 'POST',

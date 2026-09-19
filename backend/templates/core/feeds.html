@@ -15,14 +15,19 @@
                             <small>{{field.0.creation_time}}</small>
                         </div>
                     </div>
-                    <div>
-                        {% if field.0.user == request.user %}
+                    {% if field.0.user == request.user %}
+                    <div class="post-menu">
+                        <button type="button" class="post-menu-toggle bi bi-three-dots" aria-label="Post options" aria-haspopup="true" aria-expanded="false"></button>
+                        <div class="post-menu-dropdown" hidden>
                             <form action="{% url 'delete' field.0.id %}" method="post">
                                 {% csrf_token %}
-                                <button class="bi bi-trash" type="submit" name="delete"></button>
+                                <button type="submit" name="delete" class="post-menu-item post-menu-item-danger">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
                             </form>
-                        {% endif %}   
+                        </div>
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="photo">

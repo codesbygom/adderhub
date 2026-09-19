@@ -1,13 +1,18 @@
-<div class="upload-overlay" id="upload-overlay-{{ kind }}" data-upload-url="{% url 'upload_image' %}" hidden>
+<div class="upload-overlay" dir="ltr" lang="en" id="upload-overlay-{{ kind }}" data-upload-url="{% url 'upload_image' %}" hidden>
     <div class="upload-box" id="dropzone-{{ kind }}">
         <i class="bi bi-cloud-arrow-up"></i>
-        <p>عکس رو بکش و اینجا رها کن، یا</p>
+        <p>Drag and drop your photo here, or</p>
         <label for="file-{{ kind }}" class="btn btn-primary">Browse</label>
         <input type="file" id="file-{{ kind }}" accept="image/*" hidden>
-        <img class="preview" hidden>
+        <div class="crop-stage"><img class="preview" hidden></div>
+        <div class="crop-tools" hidden>
+            <button type="button" class="crop-tool bi bi-zoom-out" data-zoom="-0.1" aria-label="Zoom out"></button>
+            <button type="button" class="crop-tool bi bi-zoom-in" data-zoom="0.1" aria-label="Zoom in"></button>
+            <button type="button" class="crop-tool bi bi-arrow-counterclockwise" data-reset aria-label="Reset"></button>
+        </div>
     </div>
     <div class="upload-actions">
-        <button type="button" class="btn" data-close>انصراف</button>
-        <button type="button" class="btn btn-primary" data-save>ذخیره</button>
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="button" class="btn btn-primary" data-save>Save</button>
     </div>
 </div>

@@ -1,14 +1,24 @@
-<div class="upload-overlay" id="upload-overlay-post" data-upload-url="{% url 'home' %}" hidden>
+<div class="upload-overlay" dir="ltr" lang="en" id="upload-overlay-post" data-upload-url="{% url 'home' %}" hidden>
     <div class="upload-box" id="dropzone-post">
         <i class="bi bi-cloud-arrow-up"></i>
-        <p>عکس رو بکش و اینجا رها کن، یا</p>
+        <p>Drag and drop your photo here, or</p>
         <label for="file-post" class="btn btn-primary">Browse</label>
         <input type="file" id="file-post" accept="image/*" hidden>
-        <img class="preview" hidden>
+        <div class="crop-stage"><img class="preview" hidden></div>
+        <div class="crop-tools" hidden>
+            <button type="button" class="crop-tool bi bi-zoom-out" data-zoom="-0.1" aria-label="Zoom out"></button>
+            <button type="button" class="crop-tool bi bi-zoom-in" data-zoom="0.1" aria-label="Zoom in"></button>
+            <button type="button" class="crop-tool bi bi-arrow-counterclockwise" data-reset aria-label="Reset"></button>
+        </div>
+        <div class="aspect-choices">
+            <button type="button" class="aspect-choice selected" data-aspect="1">1:1</button>
+            <button type="button" class="aspect-choice" data-aspect="0.8">4:5</button>
+            <button type="button" class="aspect-choice" data-aspect="1.7777777778">16:9</button>
+        </div>
         <textarea id="caption-post" class="textarea2" placeholder="Caption" rows="3"></textarea>
     </div>
     <div class="upload-actions">
-        <button type="button" class="btn" data-close>انصراف</button>
-        <button type="button" class="btn btn-primary" data-save>ذخیره</button>
+        <button type="button" class="btn" data-close>Cancel</button>
+        <button type="button" class="btn btn-primary" data-save>Save</button>
     </div>
 </div>

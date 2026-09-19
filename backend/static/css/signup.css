@@ -56,3 +56,12 @@
         background: var(--color-dark);
     }
 }
+.post-create .auth-logo{
+    height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.addpost .post-create{
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 40px rgba(227, 148, 18, .25);
+}

@@ -40,7 +40,7 @@
     font-size: 0.9rem;
     position: relative;
 
-    color:var(--color-white);
+    color:var(--color-black);
     /* font-size:10px; */
     /* text-transform:Uppercase; */
   }
@@ -118,7 +118,7 @@
     height: 2rem;
     border-radius: 50%;
     background: var(--color-primary);
-    color: var(--color-white);
+    color: var(--color-black);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,7 +134,8 @@
 .upload-overlay{
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,.5);
+    background: rgba(13,9,6,.8); /* ink, not flat black -- stays a clear
+        backdrop even under a forced dark-mode extension inverting colors */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -445,6 +446,11 @@ main .container .left .profile{
     background: var(--color-primary);
 }
 
+.left .sidebar .menu-item-danger i,
+.left .sidebar .menu-item-danger h3{
+    color: var(--color-danger);
+}
+
 .left .sidebar .menu-item:first-child.active{
     border-top-left-radius: var(--card-border-radius);
     border-top-right-radius: var(--card-border-radius);
@@ -471,19 +477,25 @@ main .container .left .profile{
     margin: 0 1rem;
     font-size: 0.85rem;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
-    /* grid-auto-rows: 150px; */
 }
 
 .middle .profileposts .photo{
     border-radius: var(--card-border-radius);
     overflow: hidden;
-    width: 19vw;
-    height: 19vw;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
-    /* margin: 0rem; */
+    width: 100%;
+    aspect-ratio: 1 / 1; /* always a square thumbnail, at any grid width */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.middle .profileposts .photo:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
 }
 
 
@@ -682,11 +694,6 @@ main .container .right{
         grid-template-columns: repeat(2,1fr);
         gap: 16px;
     }
-   
-    .middle .profileposts .photo{
-        width: 25vw;
-        height: 25vw;
-    }
 }
 
 @media screen and (max-width:570px){
@@ -697,13 +704,7 @@ main .container .right{
         grid-template-columns: 0 auto 5rem;
     }
 
-    .middle .profileposts .photo{
-        width: 30vw;
-        height: 30vw;
-    }
-
     .middle .profileposts .post{
-        
         grid-template-columns: repeat(2,1fr);
         gap: 16px;
     }
@@ -771,4 +772,333 @@ main .container .right{
 
 .delete-btn{
     background: transparent;
+}
+/* Post options (three-dots) menu. Share will go here later. */
+.post-menu{
+    position: relative;
+}
+
+.post-menu-toggle{
+    background: transparent;
+    border: 0;
+    font-size: 1.3rem;
+    color: var(--color-dark);
+    cursor: pointer;
+    padding: 0 .4rem;
+    border-radius: var(--card-border-radius);
+}
+
+.post-menu-toggle:hover{
+    background: var(--color-secondary);
+}
+
+.post-menu-dropdown{
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 10;
+    min-width: 9rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+    overflow: hidden;
+}
+
+.post-menu-dropdown[hidden]{
+    display: none;
+}
+
+.post-menu-item{
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    padding: .7rem 1rem;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.post-menu-item:hover{
+    background: var(--color-light);
+}
+
+.post-menu-item-danger{
+    color: var(--color-danger);
+}
+
+/* Dark snake-body sidebar + profile card, gold text/icons */
+main .container .left .profile,
+.left .sidebar{
+    background: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: 0 0 14px rgba(0, 0, 0, .35);
+}
+
+main .container .left .profile h3,
+main .container .left .profile .text-muted,
+main .container .left .profile small{
+    color: var(--color-primary);
+}
+
+.left .sidebar h3,
+.left .sidebar i{
+    color: var(--color-primary);
+}
+
+.left .sidebar .menu-item:hover,
+.left .sidebar .active{
+    background: #2A1D0F;
+}
+
+.left .sidebar .active::before{
+    background: var(--color-secondary);
+}
+
+.left .sidebar .menu-item-danger i,
+.left .sidebar .menu-item-danger h3{
+    color: var(--color-danger);
+}
+
+main .container .left .profile h4,
+main .container .left .profile p{
+    color: var(--color-primary);
+}
+
+/* Sidebar items: <a> and <button> must look identical (the Upload Post
+   button was picking up the browser's default grey button style, shrinking
+   to its text width, and Home/links were underlining). */
+.left .sidebar .menu-item{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+}
+
+.left .sidebar .menu-item:hover,
+.left .sidebar .menu-item:focus-visible,
+.left .sidebar .active{
+    background: #2A1D0F;
+    text-decoration: none;
+}
+
+.left .sidebar .menu-item h3{
+    text-decoration: none;
+}
+
+/* Clip hover/active backgrounds to the card's rounded corners */
+.left .sidebar{
+    overflow: hidden;
+}
+
+/* All cards: snake-black surface, gold text (tokens flipped in base.css) */
+.form-input,
+.settings,
+.wrapper,
+.upload-box,
+.profile-link,
+.middle .profileposts .post,
+.middle .feeds .feed,
+.right .suggestions,
+.right .suggestions .suggest,
+.settings .edit,
+.addpost .post-create{
+    color: var(--color-dark);
+}
+
+.middle .feed .caption a,
+.middle .feed .caption b,
+.middle .feed h3,
+.right .suggestions h4,
+.right .suggestions h3{
+    color: var(--color-dark);
+}
+
+/* Inputs inside cards */
+.textarea, .textarea1, .textarea2,
+.post-create .textarea,
+.edit .textarea1{
+    color: var(--color-dark);
+}
+
+::placeholder{
+    color: var(--color-gray);
+}
+
+/* Navbar search stays cream on the black navbar */
+nav .search-bar,
+nav .search-bar input{
+    background: var(--color-page);
+    color: var(--color-black);
+}
+
+/* Navbar has only logo + search now (profile photo removed): keep search centered */
+nav .search-bar{
+    margin: 0 auto;
+}
+
+nav .search-bar input[type="search"]{
+    color: var(--color-black);
+}
+
+nav .search-bar input[type="search"]::placeholder{
+    color: #6B5A3E;
+}
+
+/* Search bar: a step lighter than the black navbar, gold text */
+nav .search-bar,
+nav .search-bar input,
+nav .search-bar input[type="search"]{
+    background: var(--color-light);
+    color: var(--color-dark);
+}
+
+nav .search-bar input[type="search"]{
+    background: transparent;
+}
+
+nav .search-bar input[type="search"]::placeholder{
+    color: var(--color-muted);
+}
+
+/* Like heart: tongue red */
+.middle .feed .action-button .bi-suit-heart,
+.middle .feed .action-button .bi-suit-heart-fill{
+    color: var(--color-danger);
+}
+
+/* Upload dialog: give icon / text / Browse button and the action buttons room */
+.upload-overlay{
+    gap: 1.5rem;
+}
+
+.upload-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2.5rem 2rem;
+}
+
+.upload-box i{
+    font-size: 2rem;
+}
+
+.upload-actions{
+    margin-top: 0;
+    gap: 1.2rem;
+}
+
+/* Cancel button: black-brown surface, gold outline + text (secondary to the gold Save) */
+.upload-actions .btn:not(.btn-primary){
+    background: var(--color-light);
+    color: var(--color-dark);
+    border: 1px solid var(--color-primary);
+    cursor: pointer;
+}
+
+/* Search submit button was a bare <button> (white UA background) */
+nav .search-bar button{
+    background: transparent;
+    border: 0;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+nav .search-bar button i{
+    color: var(--color-primary);
+}
+
+/* ---- Crop / zoom in the upload dialogs (Cropper.js) ---- */
+.upload-box{
+    width: min(92vw, 30rem);
+}
+
+.upload-box .crop-stage{
+    width: 100%;
+    max-height: 55vh;
+}
+
+.upload-box .preview{
+    margin-top: 0;
+    max-width: 100%;
+    max-height: 55vh;
+}
+
+.crop-tools{
+    display: flex;
+    gap: .6rem;
+    justify-content: center;
+}
+
+.crop-tools[hidden]{
+    display: none;
+}
+
+.crop-tool,
+.aspect-choice{
+    background: var(--color-light);
+    color: var(--color-dark);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius);
+    padding: .4rem .9rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.crop-tool:hover,
+.aspect-choice:hover,
+.aspect-choice.selected{
+    background: var(--color-primary);
+    color: var(--color-black);
+}
+
+.aspect-choices{
+    display: flex;
+    gap: .6rem;
+    justify-content: center;
+}
+
+/* Round crop guide for the avatar */
+#upload-overlay-avatar .cropper-view-box,
+#upload-overlay-avatar .cropper-face{
+    border-radius: 50%;
+}
+
+.cropper-point,
+.cropper-line{
+    background-color: var(--color-primary);
+}
+
+.cropper-view-box{
+    outline-color: var(--color-primary);
+}
+
+/* Non-square uploads were being squashed into the round avatar */
+.profile-photo img{
+    height: 100%;
+    object-fit: cover;
+}
+
+/* `img{display:block}` above beats the UA [hidden] rule; restore it for the preview */
+.upload-box .preview[hidden]{
+    display: none;
+}
+
+/* Profile page avatar: was a fixed 100x100 with no object-fit, so any
+   non-square photo got squashed. */
+.profile-img{
+    object-fit: cover;
+}
+
+/* Banner: same 3:1 ratio as the banner crop, so what you crop is what you see
+   (a fixed 8rem height re-cropped it a second time). */
+.profile-bg{
+    height: auto;
+    aspect-ratio: 3 / 1;
 }

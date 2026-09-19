@@ -24,8 +24,14 @@ function setupPostUploader(){
     const dropzone = document.getElementById('dropzone-post');
     const input    = document.getElementById('file-post');
     const caption  = document.getElementById('caption-post');
-    const preview  = overlay.querySelector('.preview');
-    let selectedFile = null;
+    const crop     = AdderCrop.attach(overlay, { aspect: 1, maxSize: 1600 });
+    let hasFile = false;
+
+    overlay.querySelectorAll('[data-aspect]').forEach(btn => btn.addEventListener('click', () => {
+        overlay.querySelectorAll('[data-aspect]').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        crop.setAspect(parseFloat(btn.dataset.aspect));
+    }));
 
     openBtn.addEventListener('click', () => overlay.hidden = false);
     overlay.querySelector('[data-close]').addEventListener('click', () => overlay.hidden = true);
@@ -41,15 +47,16 @@ function setupPostUploader(){
 
     function handleFile(file){
         if(!file) return;
-        selectedFile = file;
-        preview.src = URL.createObjectURL(file);
-        preview.hidden = false;
+        hasFile = true;
+        crop.load(file);
     }
 
     overlay.querySelector('[data-save]').addEventListener('click', async () => {
-        if(!selectedFile) return;
+        if(!hasFile) return;
+        const blob = await crop.blob();
+        if(!blob) return;
         const formData = new FormData();
-        formData.append('image', selectedFile);
+        formData.append('image', blob, crop.filename());
         formData.append('caption', caption.value);
 
         const res = await fetch(overlay.dataset.uploadUrl, {
@@ -63,3 +70,31 @@ function setupPostUploader(){
 
 setupPostUploader();
 
+
+function setupPostMenus() {
+    const closeAll = (except) => {
+        document.querySelectorAll('.post-menu-dropdown').forEach((dd) => {
+            if (dd === except) return;
+            dd.hidden = true;
+            dd.previousElementSibling.setAttribute('aria-expanded', 'false');
+        });
+    };
+
+    document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('.post-menu-toggle');
+        if (!toggle) {
+            closeAll();
+            return;
+        }
+        const dd = toggle.nextElementSibling;
+        closeAll(dd);
+        dd.hidden = !dd.hidden;
+        toggle.setAttribute('aria-expanded', String(!dd.hidden));
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAll();
+    });
+}
+
+setupPostMenus();

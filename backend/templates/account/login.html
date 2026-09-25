@@ -37,10 +37,10 @@
                 Don't have an account?
                 <a href="{% url 'signup' %}"> Sign up</a>
             </div>
-            {% comment %} <div class="">
-                Forgot your password??
-                <a href="{% url 'forgetpassword' %}"> Sign up</a>
-            </div> {% endcomment %}
+            <div class="form-footer-link">
+                Forgot your password?
+                <a href="{% url 'password_reset' %}"> Reset it</a>
+            </div>
         </div>
     </div>
 </body>

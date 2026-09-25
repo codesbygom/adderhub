@@ -14,4 +14,20 @@ urlpatterns = [
     path('settings/password/',PasswordChangeView,name="password"),
     path('settings/upload-image/', upload_image, name='upload_image'),
     path('logout/',LogoutView,name='logout'),
+
+    # "Forgot your password?" -- Django's own reset flow with our templates
+    path('password-reset/', auth_views.PasswordResetView.as_view(
+        template_name='account/password_reset_form.html',
+        email_template_name='account/password_reset_email.txt',
+        subject_template_name='account/password_reset_subject.txt',
+        success_url=reverse_lazy('password_reset_done'),
+    ), name='password_reset'),
+    path('password-reset/sent/', auth_views.PasswordResetDoneView.as_view(
+        template_name='account/password_reset_done.html'), name='password_reset_done'),
+    path('password-reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
+        template_name='account/password_reset_confirm.html',
+        success_url=reverse_lazy('password_reset_complete'),
+    ), name='password_reset_confirm'),
+    path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(
+        template_name='account/password_reset_complete.html'), name='password_reset_complete'),
 ]

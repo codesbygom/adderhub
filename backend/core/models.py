@@ -15,9 +15,9 @@ class PostManager(models.Manager):
         return self.filter(user=user).order_by('-creation_time')
 
     def get_feed_posts(self, user):
-        following_users = user.follows.all()
-        following_users = following_users.union([user])
-        return self.filter(user__in=following_users).order_by('-creation_time')
+        return self.filter(
+            models.Q(user__in=user.follows.all()) | models.Q(user=user)
+        ).order_by('-creation_time')
 
 class Post(models.Model):
     id            = models.UUIDField(primary_key=True, default=uuid4)

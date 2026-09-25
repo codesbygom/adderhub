@@ -1,6 +1,7 @@
 from django import template
 from core.forms import SearchForm
 from account.models import User
+from account.cache import get_suggestions
 register = template.Library()
 
 @register.simple_tag
@@ -12,7 +13,9 @@ def active(request, pattern):
 
 @register.simple_tag
 def suggested_users(user, limit=5):
-    return User.objects.suggest_users(user, limit=limit)
+    if not user.is_authenticated:
+        return []
+    return get_suggestions(user, limit=limit)
 
 # @register.simple_tag
 # def searchform():

@@ -113,17 +113,22 @@ class User(AbstractUser):
         else:
             return self.follow(other_user)
 
+    # Counters are cached (account/cache.py) and invalidated by
+    # account/signals.py, so profile pages and the API don't recount each time.
     @property
     def posts_count(self):
-        return self.post_set.count()
+        from .cache import get_user_stats
+        return get_user_stats(self)['posts']
 
     @property
     def followers_count(self):
-        return self.followed_by.count()
+        from .cache import get_user_stats
+        return get_user_stats(self)['followers']
 
     @property
     def followings_count(self):
-        return self.follows.count()
+        from .cache import get_user_stats
+        return get_user_stats(self)['followings']
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

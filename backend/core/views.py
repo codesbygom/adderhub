@@ -35,10 +35,17 @@ def home(request):
             return JsonResponse({'ok': True})
         return JsonResponse({'error': form.errors.get_json_data()}, status=400)
 
-    posts = Post.objects.all().order_by('-creation_time')
+    # "Following" shows only people you follow (plus yourself); the default
+    # "Explore" view shows everyone's posts.
+    tab = 'following' if request.GET.get('tab') == 'following' else 'explore'
+    if tab == 'following':
+        posts = Post.objects.get_feed_posts(request.user)
+    else:
+        posts = Post.objects.all().order_by('-creation_time')
+    posts = posts.select_related('user')
     posts_with_likes = [(post, post.is_liked_by(request.user)) for post in posts]
 
-    context = {'posts': posts_with_likes}
+    context = {'posts': posts_with_likes, 'tab': tab}
     return render(request, 'core/index.html', context=context)
 
 

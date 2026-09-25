@@ -65,5 +65,13 @@
                     </p>
                 </div>
             </div>
+    {% empty %}
+        <div class="wrapper">
+            {% if tab == 'following' %}
+                No posts yet — follow some people (or share your first post) to fill this feed.
+            {% else %}
+                No posts yet.
+            {% endif %}
+        </div>
     {%endfor%}
 </div>

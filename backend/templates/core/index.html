@@ -7,8 +7,11 @@
 
 {% block main %}
 
+    <div class="feed-tabs">
+        <a href="{% url 'home' %}" class="feed-tab {% if tab == 'explore' %}active{% endif %}">Explore</a>
+        <a href="{% url 'home' %}?tab=following" class="feed-tab {% if tab == 'following' %}active{% endif %}">Following</a>
+    </div>
+
     {% include 'core/feeds.html' %}
 
 {% endblock %}
-
-

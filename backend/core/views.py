@@ -115,7 +115,8 @@ def post_comments(request, post_id):
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     post_id = comment.post.id
-    if comment.user == request.user:
+    # the comment's author and the post's owner may both remove it
+    if request.user in (comment.user, comment.post.user):
         comment.delete()
         messages.success(request, 'Comment deleted!')
     else:

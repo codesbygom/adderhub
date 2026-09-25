@@ -211,26 +211,58 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
-# Cache: use Redis when REDIS_URL is set (e.g. the `redis` service in
-# docker-compose.yml), otherwise fall back to Django's default in-process
-# LocMemCache — so the exact same code works with zero setup on a plain
-# `runserver`/PythonAnywhere deploy, and picks up Redis automatically
-# wherever it's actually available. Every cache.* call site (template
-# tags, future API views, ...) is written against django.core.cache.cache
-# and never needs to know which backend is behind it.
+# Cache backend, picked with CACHE_BACKEND:
+#   redis  -> Redis at REDIS_URL (the `redis` service in docker-compose.yml)
+#   file   -> Django's FileBasedCache in CACHE_DIR; shared by every worker
+#             process, so this is the one to use on PythonAnywhere
+#   db     -> Django's DatabaseCache (run `manage.py createcachetable` once)
+#   locmem -> Django's in-process LocMemCache (per process, fine for dev)
+#   dummy  -> no caching at all
+# Left unset it is "redis" when REDIS_URL is set and "locmem" otherwise, so a
+# plain `runserver` needs no setup and Docker picks Redis up automatically.
+# All call sites use django.core.cache.cache and never know which it is.
 REDIS_URL = os.environ.get('REDIS_URL')
+CACHE_BACKEND = (os.environ.get('CACHE_BACKEND') or ('redis' if REDIS_URL else 'locmem')).lower()
+CACHE_TIMEOUT = int(os.environ.get('CACHE_TIMEOUT') or 300)
 
-if REDIS_URL:
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': REDIS_URL,
-            'OPTIONS': {
-                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            },
-        }
+_CACHE_BACKENDS = {
+    'redis': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': REDIS_URL or 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            # a Redis outage degrades to "no cache" instead of 500 errors
+            'IGNORE_EXCEPTIONS': True,
+        },
+    },
+    'file': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.environ.get('CACHE_DIR') or os.path.join(BASE_DIR, '.cache'),
+    },
+    'db': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'django_cache',
+    },
+    'locmem': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'adderhub',
+    },
+    'dummy': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+}
+if CACHE_BACKEND not in _CACHE_BACKENDS:
+    raise ValueError(f'CACHE_BACKEND must be one of {", ".join(_CACHE_BACKENDS)}, not {CACHE_BACKEND!r}')
+
+CACHES = {
+    'default': {
+        **_CACHE_BACKENDS[CACHE_BACKEND],
+        'TIMEOUT': CACHE_TIMEOUT,
+        'KEY_PREFIX': 'adderhub',
     }
-# else: no CACHES block at all — Django transparently uses LocMemCache.
+}
+# django_redis logs swallowed errors instead of raising them
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
 
 STATICFILES_DIRS=[os.path.join(BASE_DIR,"static"),]
 

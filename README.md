@@ -15,16 +15,25 @@ preference) — and, not coincidentally, `add` + `-er`.
 
 ## Features
 
-- **Web app** (Django templates): sign up / log in, image feed, like/unlike,
-  follow/unfollow, user search, profile pages with avatar/background
-  drag-and-drop upload, account settings, password change.
-- **REST API** (`/api/...`): JWT login/refresh, signup, profile list/detail,
-  profile update, password change — documented at `/swagger/` and `/redoc/`.
+- **Web app** (Django templates): sign up / log in, "forgot password"
+  email reset, Explore / Following feeds, like/unlike, comments,
+  follow/unfollow with follower / following lists, user search, profile pages
+  with avatar/background drag-and-drop upload, account settings, password
+  change.
+- **Admin panel** (`/panel/`, staff only): dashboard with site stats, user
+  management (search, block / unblock, grant staff — superusers only),
+  post and comment moderation.
+- **REST API** (`/api/...`): JWT login/refresh/verify, signup, profiles
+  (list + search, detail, `me`, update incl. images, password change),
+  follow/unfollow + followers/following lists, suggestions, posts (CRUD,
+  like/unlike, personal feed) and comments — documented at `/swagger/` and
+  `/redoc/`.
 - Sidebar "Upload Post" overlay (drag-and-drop image + caption), same
   interaction pattern as the profile picture uploader.
-- Redis-backed caching when `REDIS_URL` is set, with an automatic fallback
-  to Django's in-process cache otherwise — the same code runs unmodified in
-  Docker (with Redis) and on a plain deploy (without it).
+- Caching of profile counters, follow suggestions and panel stats, with
+  signal-based invalidation. The backend is one setting (`CACHE_BACKEND`):
+  Redis in Docker, Django's file cache on PythonAnywhere, in-process cache
+  for local dev — the code doesn't change.
 - UUID primary keys throughout, custom `User`/`Post` managers for the query
   logic, image-upload validation.
 
@@ -36,7 +45,7 @@ preference) — and, not coincidentally, `add` + `-er`.
 | Framework | Django 6.1 |
 | API | Django REST Framework 3.18 + `djangorestframework-simplejwt` |
 | API docs | `drf-yasg` (Swagger UI / ReDoc) |
-| Cache | Redis (`django-redis`), falls back to LocMemCache without `REDIS_URL` |
+| Cache | Redis (`django-redis`) or any Django cache backend, picked by `CACHE_BACKEND` |
 | Dependency management | [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock`) |
 | Database | SQLite (default; swap `DATABASES` for anything else in production) |
 | Containerization | Docker / Docker Compose (`web` + `redis` services) |
@@ -89,7 +98,11 @@ these explicitly in any real deployment:
 | `DJANGO_ALLOWED_HOSTS` | comma-separated hostnames | *(empty)* |
 | `DJANGO_CORS_ALLOWED_ORIGINS` | comma-separated origins allowed to call the API | `http://127.0.0.1:5173` |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | comma-separated origins trusted for CSRF-protected POSTs | `http://127.0.0.1:5173` |
-| `REDIS_URL` | Redis connection string; unset = use LocMemCache instead | *(empty)* |
+| `CACHE_BACKEND` | `redis`, `file`, `db`, `locmem` or `dummy` | `redis` if `REDIS_URL` is set, else `locmem` |
+| `REDIS_URL` | Redis connection string (for `CACHE_BACKEND=redis`) | *(empty)* |
+| `CACHE_DIR` | folder for `CACHE_BACKEND=file` | `backend/.cache` |
+| `CACHE_TIMEOUT` | default cache lifetime in seconds | `300` |
+| `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `DEFAULT_FROM_EMAIL` | SMTP for password-reset mails | console backend (mails are printed) |
 
 Generate a real secret key with:
 
@@ -104,8 +117,9 @@ backend/
 ├── account/            # custom User model, auth views (signup/login/profile/settings)
 ├── core/               # Post model, feed/search/like views, suggested_users tag
 ├── api/
-│   ├── api_account/    # JWT auth, signup, profile endpoints
-│   └── api_core/       # (reserved for post/like API endpoints)
+│   ├── api_account/    # JWT auth, signup, profile + follow endpoints
+│   └── api_core/       # post, like, feed and comment endpoints
+├── panel/              # staff-only admin panel (/panel/)
 ├── config/             # settings, root urls, WSGI/ASGI entrypoints
 ├── templates/
 │   ├── account/partials/   # avatar & background upload overlay
@@ -119,6 +133,29 @@ With the server running:
 
 - Swagger UI: `/swagger/`
 - ReDoc: `/redoc/`
+
+Every endpoint except signup/login and the public profile reads needs an
+`Authorization: Bearer <access token>` header. Lists are paginated
+(`?page=N`, 20 per page).
+
+| Method | Endpoint | What it does |
+|---|---|---|
+| POST | `/api/account/signup/` | create an account |
+| POST | `/api/account/login/` · `refresh/` · `verify/` | JWT obtain / refresh / verify |
+| GET | `/api/account/me/` | your own profile (incl. email) |
+| PATCH | `/api/account/update/` | edit profile; multipart for `profile_img` / `background_img` |
+| PUT | `/api/account/changepassword/` | change password |
+| GET | `/api/account/?search=<text>` | list / search users |
+| GET | `/api/account/suggestions/` | users you might want to follow |
+| GET | `/api/account/<id>/` | public profile |
+| POST / DELETE | `/api/account/<id>/follow/` | follow / unfollow |
+| GET | `/api/account/<id>/followers/` · `following/` | follower lists |
+| GET / POST | `/api/core/posts/` | all posts (`?user=<id>` to filter) / create (multipart) |
+| GET | `/api/core/posts/feed/` | posts from people you follow, plus your own |
+| GET / PATCH / DELETE | `/api/core/posts/<id>/` | post detail; only the owner can edit the caption or delete |
+| POST / DELETE | `/api/core/posts/<id>/like/` | like / unlike |
+| GET / POST | `/api/core/posts/<id>/comments/` | list / add comments |
+| GET / PATCH / DELETE | `/api/core/comments/<id>/` | comment detail; owner-only edits |
 
 ## Deploying to PythonAnywhere
 
@@ -169,8 +206,10 @@ matches what this project is pinned to, so no version juggling is needed.
    os.environ['DJANGO_SECRET_KEY'] = 'paste-a-freshly-generated-key-here'
    os.environ['DJANGO_DEBUG'] = 'False'
    os.environ['DJANGO_ALLOWED_HOSTS'] = '<your-username>.pythonanywhere.com'
-   # Leave DJANGO_REDIS_URL unset here -- PythonAnywhere's free tier has no
-   # Redis, and the app falls back to LocMemCache automatically.
+   # PythonAnywhere has no Redis. The file cache is shared by all of the
+   # web app's worker processes (LocMem would give each worker its own copy).
+   os.environ['CACHE_BACKEND'] = 'file'
+   os.environ['CACHE_DIR'] = '/home/<your-username>/adderhub/backend/.cache'
 
    from django.core.wsgi import get_wsgi_application
    application = get_wsgi_application()
@@ -208,7 +247,3 @@ worth knowing if you read the code:
 - The dev server (`runserver`) is used even in the Docker image; swap in
   `gunicorn`/`daphne` before exposing this to real traffic.
 - SQLite is fine for a demo, not for concurrent production traffic.
-- Comments (`Comment` model) exist in the database layer but have no
-  working route yet, on the web app or the API — that's next up.
-- The REST API (`api/api_core`) currently only exposes account endpoints;
-  post/like/follow are web-only so far.

@@ -63,6 +63,7 @@ def like(request):
 
 
 @login_required
+@require_POST
 def deletepost(request, pk):
     post = get_object_or_404(Post, id=pk)
     if post.delete_post(request.user):

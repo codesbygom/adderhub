@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile_user.username }} · {{ kind|title }}{% endblock %}
+
+{% block main %}
+    <h3 class="people-list-title">
+        <a href="{% url 'profile' username=profile_user.username %}" class="username-link">@{{ profile_user.username }}</a>
+        · {% if kind == 'followers' %}Followers{% else %}Following{% endif %}
+    </h3>
+    {% for person in people %}
+        <div class="wrapper">
+            <div class="row">
+                <div class="row1">
+                    <a href="{% url 'profile' username=person.username %}" class="profile-link">
+                        <img src="{{ person.profile_img.url }}" class="profile-img" alt="">
+                    </a>
+                    <div class="profile-marg">
+                        <p class="profile-name">{{ person.first_name|default:"" }} {{ person.last_name|default:"" }}</p>
+                        <span><a href="{% url 'profile' username=person.username %}">@{{ person.username }}</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="wrapper">Nobody here yet.</div>
+    {% endfor %}
+{% endblock %}

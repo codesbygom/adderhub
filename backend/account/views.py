@@ -12,6 +12,7 @@ from django.core.validators import FileExtensionValidator
 from django.http import JsonResponse
 from .forms import UserRegisterForm, UserLoginForm, UserSettingsForm, MyPasswordChangeForm
 from core.models import Post
+from core.views import safe_next
 from .models import User
 
 # ---------------------------
@@ -92,15 +93,24 @@ def LogoutView(request):
     return redirect('login')
 
 @login_required
+@require_POST
 def follow(request):
-    username = request.GET.get('username')
-    next_url = request.GET.get('next', '/')
+    username = request.POST.get('username')
 
     if username:
         user_to_follow = get_object_or_404(User, username=username)
         request.user.toggle_follow(user_to_follow)
 
-    return HttpResponseRedirect(next_url)
+    return HttpResponseRedirect(safe_next(request))
+
+
+@login_required
+def follow_list(request, username, kind):
+    """The people following `username` (kind='followers') or the people
+    they follow (kind='following')."""
+    user = get_object_or_404(User, username=username)
+    people = user.followed_by.all() if kind == 'followers' else user.follows.all()
+    return render(request, 'account/follow_list.html', {'profile_user': user, 'people': people, 'kind': kind})
 
 
 # Same extensions the model field itself validates against (account/models.py)

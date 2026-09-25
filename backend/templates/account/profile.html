@@ -31,11 +31,12 @@
                     </div>
                 </div>
                 {% if request.user != object %}
-                    {% if is_following %}
-                        <a class="btn btn-primary" href="{% url "follow" %}?username={{object.username}}&amp;next={{ request.path|urlencode }}">Unfollow</a>
-                    {% else %}
-                        <a class="btn btn-primary" href="{% url "follow" %}?username={{object.username}}&amp;next={{ request.path|urlencode }}">Follow</a>
-                    {% endif %}
+                    <form action="{% url 'follow' %}" method="post" class="inline-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="{{ object.username }}">
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="btn btn-primary">{% if is_following %}Unfollow{% else %}Follow{% endif %}</button>
+                    </form>
                 {% else %}
                     <a class="btn btn-primary" href="{% url 'settings' %}">Edit Profile</a>
                 {% endif %}
@@ -55,20 +56,24 @@
                         </a>
                     </li>
                     <li class="profile-details">
-                        <span class="profile-label d-block">
-                            Followers
-                        </span>
-                        <span class="profile-number">
-                            {{object.followers_count}}
-                        </span>
+                        <a href="{% url 'followers' username=object.username %}">
+                            <span class="profile-label d-block">
+                                Followers
+                            </span>
+                            <span class="profile-number">
+                                {{object.followers_count}}
+                            </span>
+                        </a>
                     </li>
                     <li class="profile-details">
-                        <span class="profile-label d-block">
-                            Followings
-                        </span>
-                        <span class="profile-number">
-                            {{object.followings_count}}
-                        </span>
+                        <a href="{% url 'following' username=object.username %}">
+                            <span class="profile-label d-block">
+                                Followings
+                            </span>
+                            <span class="profile-number">
+                                {{object.followings_count}}
+                            </span>
+                        </a>
                     </li>
                 </ul>
             </div>

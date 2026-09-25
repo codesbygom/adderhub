@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="photo">
-                    <img src="{{field.0.image.url}}" alt="">
+                    <a href="{% url 'post' pk=field.0.id %}"><img src="{{field.0.image.url}}" alt=""></a>
                 </div>
                 <div class="action-button">
                     <div class="interaction-buttons">
@@ -52,6 +52,8 @@
                     {% else %}
                     <span class="text-muted">{{field.0.get_likes_count}} Likes</span>
                     {% endif %}
+                    <a href="{% url 'post' pk=field.0.id %}#comments" class="icon-button bi bi-chat" aria-label="Comments"></a>
+                    <span class="text-muted">{{ field.0.comments.count }}</span>
                     </div>
                 </div>
                 <div class="caption">

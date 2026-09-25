@@ -8,7 +8,37 @@
 {% block main %}
 
     {% include 'core/feeds.html' %}
-    
+
+    <div class="comments" id="comments">
+        <h4>Comments</h4>
+        {% for comment in comments %}
+            <div class="comment">
+                <a href="{% url 'profile' username=comment.user.username %}" class="profile-photo">
+                    <img src="{{ comment.user.profile_img.url }}" alt="">
+                </a>
+                <div class="comment-body">
+                    <p>
+                        <b><a href="{% url 'profile' username=comment.user.username %}" class="username-link">{{ comment.user.username }}</a></b>
+                        {{ comment.text|linebreaksbr }}
+                    </p>
+                    <small class="text-muted">{{ comment.creation_time|timesince }} ago</small>
+                </div>
+                {% if request.user == comment.user or request.user == post.user %}
+                    <form action="{% url 'delete_comment' comment.id %}" method="post" class="inline-form">
+                        {% csrf_token %}
+                        <button type="submit" class="icon-button bi bi-trash" aria-label="Delete comment"></button>
+                    </form>
+                {% endif %}
+            </div>
+        {% empty %}
+            <p class="text-muted">No comments yet. Be the first!</p>
+        {% endfor %}
+
+        <form action="{% url 'post_comments' post.id %}" method="post" class="comment-form">
+            {% csrf_token %}
+            <textarea name="text" maxlength="1000" rows="2" required placeholder="Add a comment..."></textarea>
+            <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+    </div>
+
 {% endblock %}
-
-

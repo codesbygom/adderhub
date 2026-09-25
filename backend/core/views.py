@@ -53,7 +53,11 @@ def home(request):
 def post(request, pk):
     post = get_object_or_404(Post, id=pk)
     posts_with_likes = [(post, post.is_liked_by(request.user))]
-    context = {'posts': posts_with_likes}
+    context = {
+        'posts': posts_with_likes,
+        'post': post,
+        'comments': Comment.objects.get_post_comments(post).select_related('user'),
+    }
     return render(request, 'core/post-detail.html', context=context)
 
 
@@ -94,21 +98,20 @@ def search(request):
 
 
 @login_required
+@require_POST
 def post_comments(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    if request.method == 'POST':
-        text = request.POST.get('text')
-        if text:
-            Comment.objects.create_comment(post=post, user=request.user, text=text)
-            messages.success(request, 'Comment added!')
-            return redirect('post', pk=post_id)
-
-    comments = Comment.objects.get_post_comments(post)
-    context = {'post': post, 'comments': comments}
-    return render(request, 'core/post-comments.html', context=context)
+    text = request.POST.get('text', '').strip()
+    if text:
+        Comment.objects.create_comment(post=post, user=request.user, text=text[:1000])
+        messages.success(request, 'Comment added!')
+    else:
+        messages.error(request, "A comment can't be empty.")
+    return redirect('post', pk=post_id)
 
 
 @login_required
+@require_POST
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, id=comment_id)
     post_id = comment.post.id

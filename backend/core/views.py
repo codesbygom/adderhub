@@ -51,15 +51,15 @@ def post(request, pk):
 
 
 @login_required
+@require_POST
 def like(request):
-    post_id = request.GET.get('post_id')
-    next_url = request.GET.get('next', '/')
+    post_id = request.POST.get('post_id')
 
     if post_id:
         post = get_object_or_404(Post, id=post_id)
         post.toggle_like(request.user)
 
-    return HttpResponseRedirect(next_url)
+    return HttpResponseRedirect(safe_next(request))
 
 
 @login_required

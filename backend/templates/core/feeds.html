@@ -35,11 +35,16 @@
                 </div>
                 <div class="action-button">
                     <div class="interaction-buttons">
-                    {% if field.1 == False %}
-                        <span><a href="{% url "like" %}?post_id={{field.0.id}}&amp;next={{ request.path|urlencode }}" class="bi bi-suit-heart"></a></span>
-                    {% else %}
-                        <span><a href="{% url "like" %}?post_id={{field.0.id}}&amp;next={{ request.path|urlencode }}" class="bi bi-suit-heart-fill"></a></span>
-                    {% endif %}
+                    <form action="{% url 'like' %}" method="post" class="inline-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="post_id" value="{{ field.0.id }}">
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        {% if field.1 == False %}
+                            <button type="submit" class="icon-button bi bi-suit-heart" aria-label="Like"></button>
+                        {% else %}
+                            <button type="submit" class="icon-button bi bi-suit-heart-fill" aria-label="Unlike"></button>
+                        {% endif %}
+                    </form>
                     {% if field.0.get_likes_count == 0 %}
                     <span class="text-muted">No Likes</span>
                     {% elif field.0.get_likes_count == 1%}

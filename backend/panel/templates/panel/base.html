@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AdderHub Admin | {% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/panel.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<body class="panel">
+    <aside class="panel-sidebar">
+        <a href="{% url 'panel:dashboard' %}" class="panel-logo">
+            <img src="{% static 'images/logo.png' %}" alt="AdderHub">
+            <span>Admin</span>
+        </a>
+        {% with section=request.resolver_match.url_name %}
+        <nav>
+            <a href="{% url 'panel:dashboard' %}" class="{% if section == 'dashboard' %}active{% endif %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="{% url 'panel:users' %}" class="{% if section == 'users' or section == 'user-detail' %}active{% endif %}"><i class="bi bi-people"></i> Users</a>
+            <a href="{% url 'panel:posts' %}" class="{% if section == 'posts' %}active{% endif %}"><i class="bi bi-images"></i> Posts</a>
+            <a href="{% url 'panel:comments' %}" class="{% if section == 'comments' %}active{% endif %}"><i class="bi bi-chat-dots"></i> Comments</a>
+        </nav>
+        {% endwith %}
+        <div class="panel-sidebar-footer">
+            <a href="{% url 'home' %}"><i class="bi bi-box-arrow-left"></i> Back to site</a>
+            <a href="{% url 'logout' %}"><i class="bi bi-door-closed"></i> Log out</a>
+        </div>
+    </aside>
+
+    <main class="panel-main">
+        <header class="panel-header">
+            <h1>{% block heading %}{% endblock %}</h1>
+            <span class="text-muted">@{{ request.user.username }}{% if request.user.is_superuser %} · superuser{% endif %}</span>
+        </header>
+        {% for message in messages %}
+            <div class="panel-message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

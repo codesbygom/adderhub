@@ -1,0 +1,54 @@
+{% extends 'panel/base.html' %}
+{% block title %}@{{ member.username }}{% endblock %}
+{% block heading %}@{{ member.username }}{% endblock %}
+{% block content %}
+<div class="panel-grid">
+    <section class="panel-card">
+        <div class="panel-profile">
+            <img src="{{ member.profile_img.url }}" alt="">
+            <div>
+                <strong>{{ member.get_full_name|default:member.username }}</strong>
+                <p class="text-muted">{{ member.email }}{% if member.is_email_verified %} · verified{% endif %}</p>
+            </div>
+        </div>
+        <dl class="panel-dl">
+            <dt>Joined</dt><dd>{{ member.date_joined|date:"Y/m/d H:i" }}</dd>
+            <dt>Last login</dt><dd>{{ member.last_login|date:"Y/m/d H:i"|default:"never" }}</dd>
+            <dt>Posts</dt><dd>{{ member.posts_count }}</dd>
+            <dt>Followers</dt><dd>{{ member.followers_count }}</dd>
+            <dt>Following</dt><dd>{{ member.followings_count }}</dd>
+            <dt>Status</dt><dd>{% if member.is_active %}active{% else %}<span class="badge danger">blocked</span>{% endif %}{% if member.is_superuser %} · superuser{% elif member.is_staff %} · staff{% endif %}</dd>
+        </dl>
+        {% if member.bio %}<p>{{ member.bio }}</p>{% endif %}
+        <div class="panel-actions">
+            <a class="btn" href="{% url 'profile' username=member.username %}">View profile</a>
+            {% if member != request.user %}
+                <form method="post" action="{% url 'panel:user-toggle-active' member.pk %}">{% csrf_token %}
+                    <button class="btn {% if member.is_active %}btn-danger{% else %}btn-primary{% endif %}">{% if member.is_active %}Block{% else %}Unblock{% endif %}</button>
+                </form>
+                {% if request.user.is_superuser %}
+                <form method="post" action="{% url 'panel:user-toggle-staff' member.pk %}">{% csrf_token %}
+                    <button class="btn">{% if member.is_staff %}Remove staff{% else %}Make staff{% endif %}</button>
+                </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </section>
+    <section class="panel-card">
+        <h2>Recent posts</h2>
+        <div class="panel-thumbs">
+            {% for p in posts %}
+                <a href="{% url 'post' pk=p.id %}"><img src="{{ p.image.url }}" alt=""></a>
+            {% empty %}
+                <p class="text-muted">No posts.</p>
+            {% endfor %}
+        </div>
+        <h2>Recent comments</h2>
+        {% for c in comments %}
+            <p class="panel-comment">“{{ c.text|truncatechars:120 }}” <a href="{% url 'post' pk=c.post.id %}#comments" class="text-muted">view</a></p>
+        {% empty %}
+            <p class="text-muted">No comments.</p>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

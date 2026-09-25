@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     # restframework apps
     'api.api_account',
     'api.api_core',
+    # staff-only admin panel
+    'panel',
 ]
 
 MIDDLEWARE = [

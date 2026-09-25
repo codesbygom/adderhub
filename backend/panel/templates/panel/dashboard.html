@@ -1,0 +1,41 @@
+{% extends 'panel/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block heading %}Dashboard{% endblock %}
+{% block content %}
+<div class="panel-stats">
+    <div class="panel-stat"><span>{{ user_count }}</span>Users</div>
+    <div class="panel-stat"><span>{{ post_count }}</span>Posts</div>
+    <div class="panel-stat"><span>{{ comment_count }}</span>Comments</div>
+    <div class="panel-stat"><span>{{ like_count }}</span>Likes</div>
+    <div class="panel-stat"><span>{{ new_users }}</span>New users (7 days)</div>
+    <div class="panel-stat"><span>{{ new_posts }}</span>New posts (7 days)</div>
+    <div class="panel-stat"><span>{{ blocked_users }}</span>Blocked users</div>
+</div>
+
+<div class="panel-grid">
+    <section class="panel-card">
+        <h2>Most active</h2>
+        <table class="panel-table">
+            <thead><tr><th>User</th><th>Posts</th></tr></thead>
+            <tbody>
+            {% for u in top_posters %}
+                <tr><td><a href="{% url 'panel:user-detail' u.pk %}">@{{ u.username }}</a></td><td>{{ u.n_posts }}</td></tr>
+            {% empty %}
+                <tr><td colspan="2" class="text-muted">No posts yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <section class="panel-card">
+        <h2>Latest posts <a href="{% url 'panel:posts' %}" class="panel-card-link">All posts</a></h2>
+        <div class="panel-thumbs">
+            {% for p in recent_posts %}
+                <a href="{% url 'post' pk=p.id %}" title="@{{ p.user.username }}: {{ p.caption|truncatechars:60 }}"><img src="{{ p.image.url }}" alt=""></a>
+            {% empty %}
+                <p class="text-muted">No posts yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+<p class="text-muted panel-note">Counters are cached for a minute.</p>
+{% endblock %}

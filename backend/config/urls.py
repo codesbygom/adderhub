@@ -48,6 +48,8 @@ urlpatterns = [
     # drf apps include api folder
     path('api/account/',include('api.api_account.urls')),
     path('api/core/',include('api.api_core.urls')),
+    # staff-only admin panel
+    path('panel/', include('panel.urls')),
     # drf-yasg
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

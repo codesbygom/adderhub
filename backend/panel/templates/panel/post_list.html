@@ -1,0 +1,31 @@
+{% extends 'panel/base.html' %}
+{% block title %}Posts{% endblock %}
+{% block heading %}Posts{% endblock %}
+{% block content %}
+<section class="panel-card">
+    <form method="get" class="panel-filter">
+        <input type="search" name="q" value="{{ q }}" placeholder="Caption or username">
+        <button class="btn btn-primary">Search</button>
+    </form>
+    <div class="panel-post-grid">
+        {% for p in posts %}
+            <article class="panel-post">
+                <a href="{% url 'post' pk=p.id %}"><img src="{{ p.image.url }}" alt=""></a>
+                <div class="panel-post-body">
+                    <a href="{% url 'panel:user-detail' p.user.pk %}">@{{ p.user.username }}</a>
+                    <p>{{ p.caption|truncatechars:80 }}</p>
+                    <small class="text-muted">{{ p.creation_time|date:"Y/m/d H:i" }} · {{ p.n_likes }} likes · {{ p.n_comments }} comments</small>
+                    <form method="post" action="{% url 'panel:post-delete' p.pk %}" onsubmit="return confirm('Delete this post for good?');">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </article>
+        {% empty %}
+            <p class="text-muted">No posts found.</p>
+        {% endfor %}
+    </div>
+    {% include 'panel/_pagination.html' %}
+</section>
+{% endblock %}

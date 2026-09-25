@@ -1102,3 +1102,111 @@ nav .search-bar button i{
     height: auto;
     aspect-ratio: 3 / 1;
 }
+
+/* ---- Flash messages ---- */
+.messages{
+    margin: 0 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.messages .message{
+    padding: 0.6rem 1rem;
+    border-radius: var(--card-border-radius);
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-left: 4px solid var(--color-primary);
+    font-size: 0.9rem;
+}
+.messages .message.success{ border-left-color: var(--color-success); }
+.messages .message.error{ border-left-color: var(--color-danger); }
+
+/* ---- Explore / Following tabs ---- */
+.feed-tabs{
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 1rem 1rem;
+}
+.feed-tab{
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    background: var(--color-white);
+    color: var(--color-muted);
+    font-weight: 600;
+}
+.feed-tab.active{
+    background: var(--color-primary);
+    color: var(--color-black);
+}
+
+/* ---- Buttons that look like bare icons (like, comment, delete) ---- */
+.inline-form{
+    display: inline;
+}
+.icon-button{
+    background: transparent;
+    cursor: pointer;
+    font-size: inherit;
+    color: var(--color-dark);
+    padding: 0;
+}
+.middle .feed .interaction-buttons{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.middle .feed .interaction-buttons .bi-chat{
+    margin-left: 0.75rem;
+}
+
+/* ---- Comments on the post page ---- */
+.comments{
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 0 1rem 1rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    font-size: 0.85rem;
+}
+.comments h4{
+    margin-bottom: 0.8rem;
+}
+.comments .comment{
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+}
+.comments .comment-body{
+    flex: 1;
+}
+.comments .comment .icon-button{
+    color: var(--color-danger);
+}
+.comment-form{
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+    margin-top: 1rem;
+}
+.comment-form textarea{
+    flex: 1;
+    resize: vertical;
+    background: var(--color-light);
+    color: var(--color-dark);
+    border-radius: var(--card-border-radius);
+    padding: 0.6rem 1rem;
+    font-family: inherit;
+}
+
+/* ---- Follower / following lists ---- */
+.people-list-title{
+    margin: 0 1rem 1rem;
+    color: var(--color-dark);
+}
+.profile-details a{
+    color: inherit;
+}

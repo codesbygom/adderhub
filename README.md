@@ -46,7 +46,7 @@ preference) — and, not coincidentally, `add` + `-er`.
 | API | Django REST Framework 3.18 + `djangorestframework-simplejwt` |
 | API docs | `drf-yasg` (Swagger UI / ReDoc) |
 | Cache | Redis (`django-redis`) or any Django cache backend, picked by `CACHE_BACKEND` |
-| Dependency management | [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock`) |
+| Dependency management | `requirements.txt` + pip for local dev; [`uv`](https://docs.astral.sh/uv/) (`pyproject.toml` + `uv.lock`) inside the Docker image |
 | Database | SQLite (default; swap `DATABASES` for anything else in production) |
 | Containerization | Docker / Docker Compose (`web` + `redis` services) |
 
@@ -63,17 +63,22 @@ This builds the image, runs migrations, and starts the dev server at
 [http://localhost:8000](http://localhost:8000), with a `redis` container
 wired up automatically via `REDIS_URL`.
 
-## Running locally with `uv` (no Docker)
+## Running locally with a virtualenv (no Docker)
 
-If you have [`uv`](https://docs.astral.sh/uv/) installed, it will fetch the
-right Python version for you automatically — no separate Python install
-required either. Without `REDIS_URL` set, caching just uses Django's
+You need Python 3.13. On Windows, get it with the official
+[Python Install Manager](https://www.python.org/downloads/windows/)
+(`py install 3.13`). Without `REDIS_URL` set, caching just uses Django's
 in-process backend, so Redis isn't required for local dev.
 
+From the repository root:
+
 ```sh
+py -V:3.13 -m venv .venv            # macOS/Linux: python3.13 -m venv .venv
+.venv\Scripts\activate              # macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
 cd backend
-uv run --project .. python manage.py migrate
-uv run --project .. python manage.py runserver
+python manage.py migrate
+python manage.py runserver
 ```
 
 ## Running the tests
@@ -82,8 +87,8 @@ uv run --project .. python manage.py runserver
 # with Docker:
 docker compose exec web python manage.py test
 
-# with uv:
-cd backend && uv run --project .. python manage.py test
+# with the virtualenv active:
+cd backend && python manage.py test
 ```
 
 ## Environment variables
@@ -107,7 +112,7 @@ these explicitly in any real deployment:
 Generate a real secret key with:
 
 ```sh
-uv run --project . python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 ```
 
 ## Project structure

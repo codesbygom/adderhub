@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    border: none;
+}
+
+:root{
+    /* AdderHub palette -- sampled from the snake logo: black body,
+       golden-yellow blotches, cream belly, red tongue. Every color on the
+       site comes from these variables, so this block is the whole theme. */
+    --color-white: #17110B;   /* CARD surface -- snake-body black */
+    --color-dark: #F0B13A;    /* TEXT on cards -- light snake gold (name kept from the old light theme) */
+    --color-light: #2A1D0F;    /* inner surfaces (inputs, hover, active) -- lighter black-brown */
+    --color-page: #F0E2C4;    /* page background behind the cards -- cream belly */
+    --color-gray: #7A6238;    /* borders, placeholders, disabled icons */
+    --color-muted: #C9A24E;   /* secondary text on cards -- dimmer gold */
+    --color-primary: #E39412; /* 'Hub' gold -- buttons, links, focus rings */
+    --color-secondary: #3A2A14; /* subtle highlight on dark cards */
+    --color-success: #4B7A3E;
+    --color-danger: #D9484A;  /* tongue red */
+    --color-black: #0D0906;
+    --color-navbar: #17110B;  /* the logo's own black */
+
+    --border-radius:2rem;
+    --card-border-radius:1rem;
+    --btn-padding:0.6rem 2rem;
+    --search-padding:0.6rem 1rem;
+    --card-padding:1rem;
+
+    --sticky-top-left:5.4rem;
+    --sticky-top-right:-18rem;
+}
+
+html{
+    /* Belt-and-suspenders: if body's background ever fails to paint the
+       full viewport (see below), this is what shows through instead of
+       the browser's unstyled white/black default. */
+    background: var(--color-page);
+}
+
+body{
+    font-family: 'Dosis', sans-serif;
+    color:var(--color-dark); /* gold: nearly all text sits on dark cards */
+    background:var(--color-page);
+    overflow-x: hidden;
+    /* Without this, a short page (e.g. the login form) only paints the
+       background down to where its content ends -- the rest of the
+       viewport is left unstyled, so a forced dark-mode extension colors
+       it separately from (and inconsistently with) the rest of the page. */
+    min-height: 100vh;
+}
+
+:focus-visible{
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+a{
+    color: var(--color-primary);
+    transition: color 150ms ease;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.btn{
+    display: inline-block;
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.btn:hover{
+    opacity:0.8;
+}
+
+.btn-primary{
+    background: var(--color-primary);
+    color: var(--color-black); /* gold + white is only ~2.4:1; black is ~8:1 */
+}
+
+/* Helper text under a submit button (Sign up / Login / Change password
+   links) -- was sitting flush against the button with no breathing room. */
+.form-footer-link{
+    margin-top: 1rem;
+    text-align: center;
+    color: var(--color-muted);
+}
+
+.form-footer-link a{
+    font-weight: 500;
+}

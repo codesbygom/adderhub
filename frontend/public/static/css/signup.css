@@ -1,0 +1,67 @@
+.addpost{
+    background: rgba(158, 157, 157, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    display: grid;
+    place-items: center;
+}
+
+
+
+.addpost .post-create{
+    position: relative;
+    background: var(--color-white);
+    padding: 3rem;
+    border-radius: var(--card-border-radius);
+    /* border: 3px solid; */
+    border-color: var(--color-dark);
+    width: 50%;
+}
+
+
+.post-create .textarea{
+    display: flex;
+    width: 100%;
+    background: var(--color-light);
+    padding: var(--card-padding);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Dosis', sans-serif;
+    border-radius: var(--card-border-radius);
+    font-size: 0.9rem;
+    position: relative;
+}
+
+@media screen and (max-width:570px){
+    .post-create .fontt{
+        font-size: 0.6rem;
+    }
+
+    .post-create .textarea{
+        font-size: 0.7rem;
+    }
+
+    .post-create::before{
+        content: "";
+        position: absolute;
+        top: 1.3rem;
+        left: calc(20rem - 0.6rem);
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        background: var(--color-dark);
+    }
+}
+.post-create .auth-logo{
+    height: 4rem;
+    margin-bottom: 1rem;
+}
+
+.addpost .post-create{
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 40px rgba(227, 148, 18, .25);
+}

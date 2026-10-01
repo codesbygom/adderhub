@@ -1,0 +1,1212 @@
+
+.center {
+    display: flex;
+    align-items:center;
+    justify-content:center;
+    margin: 1rem;
+    margin-top: 0;
+  }
+.form-input {
+    border-radius: var(--card-border-radius);
+    width:100%;
+    padding:var(--card-padding);
+    background:var(--color-white);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+
+  }
+
+  .form-input input[type=file] {
+    display:none;
+  }
+
+  .inp1{
+    width: 100%;
+  }
+  
+  .form-input label {
+    display:grid;
+    
+    /* width:45%;
+    height:45px; */
+    /* line-height:50px; */
+    text-align:center;
+    background:var(--color-primary);
+
+    padding: var(--btn-padding);
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 300ms ease;
+    font-size: 0.9rem;
+    position: relative;
+
+    color:var(--color-black);
+    /* font-size:10px; */
+    /* text-transform:Uppercase; */
+  }
+  
+  .form-input img {
+    display:none;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    width: 100%;
+    margin-bottom:1rem;
+  }
+
+  .textarea2{
+    display: flex;
+    width: 100%;
+    background: var(--color-light);
+    padding: var(--card-padding);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Dosis', sans-serif;
+    border-radius: var(--card-border-radius);
+    font-size: 0.9rem;
+    position: relative;
+    resize: none;
+  }
+  
+.settings {
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    width: auto;
+    display: grid;
+    align-items: center;
+    margin: 1rem;
+    margin-top: 0;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+}
+
+.wrapper{
+    background: var(--color-white) none repeat scroll 0 0;
+    border:1px solid var(--color-light);
+    border-radius: var(--card-border-radius);
+    height: auto;
+    width: auto;
+    /* max-width: 340px; */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+    padding: var(--card-padding);
+    margin: 1rem;
+    margin-top: 0;
+}
+
+.profile-bg{
+    width: 100%;
+    height: 8rem;
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.profile-bg img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatar-edit, .profile-bg{
+    position: relative;
+}
+
+.avatar-edit-btn{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: var(--color-black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 200ms ease;
+    cursor: pointer;
+}
+
+.avatar-edit:hover .avatar-edit-btn{
+    opacity: 1;
+}
+
+.upload-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(13,9,6,.8); /* ink, not flat black -- stays a clear
+        backdrop even under a forced dark-mode extension inverting colors */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+/* the `hidden` attribute's UA-stylesheet `display:none` has no !important,
+   so it loses to the `display: flex` above unless we restate it here */
+.upload-overlay[hidden]{
+    display: none;
+}
+
+.upload-box{
+    background: var(--color-white);
+    border: 2px dashed var(--color-gray);
+    border-radius: var(--card-border-radius);
+    padding: 2rem;
+    text-align: center;
+    width: 20rem;
+}
+
+.upload-box.dragover{
+    border-color: var(--color-primary);
+}
+
+.upload-box .preview{
+    width: 100%;
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+}
+
+.upload-actions{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.profile-bio{
+    background: var(--color-gray) none repeat scroll 0 0;
+    border-radius: var(--card-border-radius);
+    height: auto;
+    width: auto;
+}
+
+
+.profile-link{
+    background: var(--color-white);
+    border-radius: var(--border-radius);
+    display: block;
+    float: left;
+    margin: 1rem;
+    margin-left: 0;
+    margin-top: 0;
+    max-width: 100%;
+    padding: 1px;
+    vertical-align: bottom;
+}
+
+.profile-img{
+    border-radius: 25%;
+    height: 100px;
+    width: 100px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+.profile-marg{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 1rem;
+    margin-top: 0;
+    width: 100%;
+}
+
+.row1{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+
+.row{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.btn-left{
+    float: right;
+}
+
+.profile-name{
+    font-size:18px;
+    font-weight: 700;
+    line-height: 21px;
+}
+
+.profile-name a{
+    color:inherit;
+}
+
+.profile-state{
+    padding: var(--card-padding);
+}
+
+.profile-Arrange{
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
+    margin: 0;
+    min-width: 100%;
+    padding: 0px;
+}
+
+ul.profile-Arrange{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.profile-details a:hover{
+    text-decoration: none;
+}
+
+.profile-number{
+    display: block;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.15s ease-in-out 0s;
+}
+
+.profile-label{
+    color: var(--color-dark);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+    overflow: hidden;
+    text-transform: uppercase;
+    transition: color 0.15s ease-in-out 0s;
+}
+
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.profile-photo {
+    width: 2.7rem;
+    aspect-ratio: 1/1;
+    border-radius:50%;
+    overflow: hidden;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
+}
+
+img{
+    display: block;
+    width: 100%;
+}
+
+.logo-img{
+    height: 3.4rem;
+    width: auto;
+    /* Traces a thin black outline around the PNG's own alpha shape
+       (letters + snake) instead of a rectangular box, by stacking
+       drop-shadows in the 4 main directions only, at a fraction of a
+       pixel so it stays hairline-thin. */
+    filter:
+        drop-shadow(0.5px 0 0 rgba(0,0,0,.85))
+        drop-shadow(-0.5px 0 0 rgba(0,0,0,.85))
+        drop-shadow(0 0.5px 0 rgba(0,0,0,.85))
+        drop-shadow(0 -0.5px 0 rgba(0,0,0,.85));
+}
+
+.text-bold{
+    font-weight:500;
+}
+
+.text-muted{
+    color:var(--color-muted)
+}
+
+/* =================navbar================== */
+nav{
+    width:100%;
+    background:var(--color-navbar);
+    padding:0.7rem 0;
+    position: fixed;
+    top:0;
+    z-index: 10;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+
+}
+
+nav .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .search-bar{
+    background:var(--color-light);
+    border-radius: var(--border-radius);
+    padding: var(--search-padding);
+}
+
+nav .search-bar input[type="search"]{
+    background: transparent;
+    width: 30vw;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    color: var(--color-dark);
+}
+
+nav .search-bar input[type="search"]::placeholder{
+    color: var(--color-muted);
+}
+
+nav .create{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+
+/* =================main=================== */
+main {
+    position: relative;
+    top: 5.4rem;
+}
+
+
+main .container{
+    display: grid;
+    grid-template-columns: 18vw auto 20vw;
+    column-gap: 2rem;
+    position: relative;
+}
+
+/* ===========================left========================= */
+main .container .left{
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-left);
+}
+
+main .container .left .profile{
+    padding: var(--card-padding);
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    width: 100%;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+
+}
+
+.left .sidebar{
+    margin-top:1rem;
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+
+}
+
+
+.left .sidebar .menu-item{
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    cursor:pointer;
+    /* gap: 1rem; */
+    transition:all 300ms ease;
+    position: relative;
+}
+
+.left .sidebar .menu-item:hover{
+    background: var(--color-light);
+}
+
+.left .sidebar i{
+    font-size: 1.2rem;
+    color: var(--color-muted);
+    margin-left: 2rem;
+    position: relative;
+}
+
+.left .sidebar h3{
+    margin-left: 1.5rem;
+    font-size: 1rem;
+}
+
+.left .sidebar .active{
+    background: var(--color-light);
+}
+
+.left .sidebar .active i,
+.left .sidebar .active h3{
+    color: var(--color-primary);
+}
+
+.left .sidebar .active::before{
+    content:"";
+    display:block;
+    width: 0.5rem;
+    height: 100%;
+    position: absolute;
+    background: var(--color-primary);
+}
+
+.left .sidebar .menu-item-danger i,
+.left .sidebar .menu-item-danger h3{
+    color: var(--color-danger);
+}
+
+.left .sidebar .menu-item:first-child.active{
+    border-top-left-radius: var(--card-border-radius);
+    border-top-right-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+
+.left .sidebar .menu-item:last-child.active{
+    border-bottom-left-radius: var(--card-border-radius);
+    border-bottom-right-radius: var(--card-border-radius);
+    overflow: hidden;
+}
+ 
+.left .btn{
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.middle .profileposts .post{
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 0 1rem;
+    font-size: 0.85rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, .09);
+}
+
+.middle .profileposts .photo{
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1 / 1; /* always a square thumbnail, at any grid width */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.middle .profileposts .photo:hover{
+    transform: scale(1.05);
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+
+.pic{
+    max-width:100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.middle .feeds .feed{
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 0 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    font-size: 0.85rem;
+}
+
+
+.middle .feed .head {
+    display: flex;
+    justify-content: space-between;
+}
+.middle .feed .user{
+    display: flex;
+    gap:1rem;
+}
+
+.middle .feed .photo{
+    border-radius: var(--card-border-radius);
+    overflow: hidden;
+    /* margin: 0.7rem; */
+    margin-top: 0.7rem;
+}
+
+.middle .feed .action-button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+    margin: 0.6rem 0;
+}
+
+.middle .feed .caption{
+    padding-bottom: 0.6rem;
+}
+
+.username-link{
+    color: inherit;
+}
+
+.middle .feed .action-button .text-muted{
+    font-size: 0.9rem;
+}
+
+main .container .right{
+    height: max-content;
+    position: sticky;
+    top: var(--sticky-top-right);
+    bottom: 0;
+}
+
+.create .btn{
+    height: 35px;
+    padding: 0.4rem 0.5rem;
+
+}
+
+.right .suggestions{
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+}
+
+.right .suggestions .heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.right .messages i{
+    font-size: 1.4rem;
+}
+
+
+.right .suggestions .suggest{
+    font-size: 0.7rem;
+    align-items: center;
+    display: flex;
+    background: var(--color-light);
+    padding: 0.2rem;
+    border-radius: var(--card-border-radius);
+    gap: 0.7rem;
+}
+
+.addpost{
+    background: rgba(171, 169, 169, 0.5);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    text-align: center;
+    display: none;
+    place-items: center;
+}
+
+
+
+.addpost .post-create{
+    position: relative;
+    background: var(--color-white);
+    padding: 3rem;
+    border-radius: var(--card-border-radius);
+    /* border: 3px solid; */
+    /* border-color: var(--color-dark); */
+    width: 50%;
+}
+
+
+.post-create .textarea{
+    display: flex;
+    width: 100%;
+    background: var(--color-light);
+    padding: var(--card-padding);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    resize: none;
+    font-family: 'Dosis', sans-serif;
+    border-radius: var(--card-border-radius);
+    font-size: 0.9rem;
+    position: relative;
+}
+
+
+.closebtn{
+    float: right;
+    cursor: pointer;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+
+.settings .edit{
+    position: relative;
+    background: var(--color-white);
+    padding: 1rem;
+    border-radius: var(--card-border-radius);
+}
+
+.edit .textarea1{
+    display: flex;
+    width: 100%;
+    background: var(--color-light);
+    padding: var(--card-padding);
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-family: 'Dosis', sans-serif;
+    border-radius: var(--card-border-radius);
+    font-size: 0.9rem;
+    resize: none;
+    max-height: 5rem;
+    position: relative;
+}
+
+
+
+@media screen and (max-width:800px) {
+    .container{
+        grid-template-columns: 5rem auto 30vw;
+        /* gap: 1rem; */
+    }
+
+    .left{
+        width: 5rem;
+        z-index:5;
+    }
+
+    main .container .left .profile{
+        display: none;
+    }
+
+    .sidebar h3{
+        display: none;
+    }
+
+    .middle .profileposts .post{
+        grid-template-columns: repeat(2,1fr);
+        gap: 16px;
+    }
+}
+
+@media screen and (max-width:570px){
+    nav .search-bar{
+        display: none;
+    }
+    main .container{
+        grid-template-columns: 0 auto 5rem;
+    }
+
+    .middle .profileposts .post{
+        grid-template-columns: repeat(2,1fr);
+        gap: 16px;
+    }
+
+    .container1{
+        margin-right: calc(20px + 80px);
+        margin-left: 0;
+    }
+
+    main .container .left{
+        grid-column: 3/4;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+    }
+
+    .post-create .fontt{
+        font-size: 0.7rem;
+    }
+
+    .post-create .textarea{
+        font-size: 0.7rem;
+    }
+
+    .post-create::before{
+        content: "";
+        position: absolute;
+        top: 1.3rem;
+        left: calc(20rem - 0.6rem);
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        background: var(--color-dark);
+    }
+    main .container .left .sidebar > div h3{
+        display: none;
+    }
+    main .container .middle{
+        grid-column: 1/3;
+    }
+
+    main .container .right{
+        display: none;
+    }
+
+    .edit .fontt{
+        font-size: 0.6rem;
+    }
+
+    .edit .textarea{
+        font-size: 0.7rem;
+    }
+
+    .edit::before{
+        content: "";
+        position: absolute;
+        top: 1.3rem;
+        left: calc(20rem - 0.6rem);
+        width: 0.6rem;
+        height: 0.6rem;
+        border-radius: 50%;
+        background: var(--color-dark);
+    }
+}
+
+.delete-btn{
+    background: transparent;
+}
+/* Post options (three-dots) menu. Share will go here later. */
+.post-menu{
+    position: relative;
+}
+
+.post-menu-toggle{
+    background: transparent;
+    border: 0;
+    font-size: 1.3rem;
+    color: var(--color-dark);
+    cursor: pointer;
+    padding: 0 .4rem;
+    border-radius: var(--card-border-radius);
+}
+
+.post-menu-toggle:hover{
+    background: var(--color-secondary);
+}
+
+.post-menu-dropdown{
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 10;
+    min-width: 9rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray);
+    border-radius: var(--card-border-radius);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .2);
+    overflow: hidden;
+}
+
+.post-menu-dropdown[hidden]{
+    display: none;
+}
+
+.post-menu-item{
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    width: 100%;
+    padding: .7rem 1rem;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.post-menu-item:hover{
+    background: var(--color-light);
+}
+
+.post-menu-item-danger{
+    color: var(--color-danger);
+}
+
+/* Dark snake-body sidebar + profile card, gold text/icons */
+main .container .left .profile,
+.left .sidebar{
+    background: var(--color-white);
+    color: var(--color-primary);
+    box-shadow: 0 0 14px rgba(0, 0, 0, .35);
+}
+
+main .container .left .profile h3,
+main .container .left .profile .text-muted,
+main .container .left .profile small{
+    color: var(--color-primary);
+}
+
+.left .sidebar h3,
+.left .sidebar i{
+    color: var(--color-primary);
+}
+
+.left .sidebar .menu-item:hover,
+.left .sidebar .active{
+    background: #2A1D0F;
+}
+
+.left .sidebar .active::before{
+    background: var(--color-secondary);
+}
+
+.left .sidebar .menu-item-danger i,
+.left .sidebar .menu-item-danger h3{
+    color: var(--color-danger);
+}
+
+main .container .left .profile h4,
+main .container .left .profile p{
+    color: var(--color-primary);
+}
+
+/* Sidebar items: <a> and <button> must look identical (the Upload Post
+   button was picking up the browser's default grey button style, shrinking
+   to its text width, and Home/links were underlining). */
+.left .sidebar .menu-item{
+    width: 100%;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    text-decoration: none;
+}
+
+.left .sidebar .menu-item:hover,
+.left .sidebar .menu-item:focus-visible,
+.left .sidebar .active{
+    background: #2A1D0F;
+    text-decoration: none;
+}
+
+.left .sidebar .menu-item h3{
+    text-decoration: none;
+}
+
+/* Clip hover/active backgrounds to the card's rounded corners */
+.left .sidebar{
+    overflow: hidden;
+}
+
+/* All cards: snake-black surface, gold text (tokens flipped in base.css) */
+.form-input,
+.settings,
+.wrapper,
+.upload-box,
+.profile-link,
+.middle .profileposts .post,
+.middle .feeds .feed,
+.right .suggestions,
+.right .suggestions .suggest,
+.settings .edit,
+.addpost .post-create{
+    color: var(--color-dark);
+}
+
+.middle .feed .caption a,
+.middle .feed .caption b,
+.middle .feed h3,
+.right .suggestions h4,
+.right .suggestions h3{
+    color: var(--color-dark);
+}
+
+/* Inputs inside cards */
+.textarea, .textarea1, .textarea2,
+.post-create .textarea,
+.edit .textarea1{
+    color: var(--color-dark);
+}
+
+::placeholder{
+    color: var(--color-gray);
+}
+
+/* Navbar search stays cream on the black navbar */
+nav .search-bar,
+nav .search-bar input{
+    background: var(--color-page);
+    color: var(--color-black);
+}
+
+/* Navbar has only logo + search now (profile photo removed): keep search centered */
+nav .search-bar{
+    margin: 0 auto;
+}
+
+nav .search-bar input[type="search"]{
+    color: var(--color-black);
+}
+
+nav .search-bar input[type="search"]::placeholder{
+    color: #6B5A3E;
+}
+
+/* Search bar: a step lighter than the black navbar, gold text */
+nav .search-bar,
+nav .search-bar input,
+nav .search-bar input[type="search"]{
+    background: var(--color-light);
+    color: var(--color-dark);
+}
+
+nav .search-bar input[type="search"]{
+    background: transparent;
+}
+
+nav .search-bar input[type="search"]::placeholder{
+    color: var(--color-muted);
+}
+
+/* Like heart: tongue red */
+.middle .feed .action-button .bi-suit-heart,
+.middle .feed .action-button .bi-suit-heart-fill{
+    color: var(--color-danger);
+}
+
+/* Upload dialog: give icon / text / Browse button and the action buttons room */
+.upload-overlay{
+    gap: 1.5rem;
+}
+
+.upload-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    padding: 2.5rem 2rem;
+}
+
+.upload-box i{
+    font-size: 2rem;
+}
+
+.upload-actions{
+    margin-top: 0;
+    gap: 1.2rem;
+}
+
+/* Cancel button: black-brown surface, gold outline + text (secondary to the gold Save) */
+.upload-actions .btn:not(.btn-primary){
+    background: var(--color-light);
+    color: var(--color-dark);
+    border: 1px solid var(--color-primary);
+    cursor: pointer;
+}
+
+/* Search submit button was a bare <button> (white UA background) */
+nav .search-bar button{
+    background: transparent;
+    border: 0;
+    color: var(--color-primary);
+    cursor: pointer;
+}
+
+nav .search-bar button i{
+    color: var(--color-primary);
+}
+
+/* ---- Crop / zoom in the upload dialogs (Cropper.js) ---- */
+.upload-box{
+    width: min(92vw, 30rem);
+}
+
+.upload-box .crop-stage{
+    width: 100%;
+    max-height: 55vh;
+}
+
+.upload-box .preview{
+    margin-top: 0;
+    max-width: 100%;
+    max-height: 55vh;
+}
+
+.crop-tools{
+    display: flex;
+    gap: .6rem;
+    justify-content: center;
+}
+
+.crop-tools[hidden]{
+    display: none;
+}
+
+.crop-tool,
+.aspect-choice{
+    background: var(--color-light);
+    color: var(--color-dark);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius);
+    padding: .4rem .9rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.crop-tool:hover,
+.aspect-choice:hover,
+.aspect-choice.selected{
+    background: var(--color-primary);
+    color: var(--color-black);
+}
+
+.aspect-choices{
+    display: flex;
+    gap: .6rem;
+    justify-content: center;
+}
+
+/* Round crop guide for the avatar */
+#upload-overlay-avatar .cropper-view-box,
+#upload-overlay-avatar .cropper-face{
+    border-radius: 50%;
+}
+
+.cropper-point,
+.cropper-line{
+    background-color: var(--color-primary);
+}
+
+.cropper-view-box{
+    outline-color: var(--color-primary);
+}
+
+/* Non-square uploads were being squashed into the round avatar */
+.profile-photo img{
+    height: 100%;
+    object-fit: cover;
+}
+
+/* `img{display:block}` above beats the UA [hidden] rule; restore it for the preview */
+.upload-box .preview[hidden]{
+    display: none;
+}
+
+/* Profile page avatar: was a fixed 100x100 with no object-fit, so any
+   non-square photo got squashed. */
+.profile-img{
+    object-fit: cover;
+}
+
+/* Banner: same 3:1 ratio as the banner crop, so what you crop is what you see
+   (a fixed 8rem height re-cropped it a second time). */
+.profile-bg{
+    height: auto;
+    aspect-ratio: 3 / 1;
+}
+
+/* ---- Flash messages ---- */
+.messages{
+    margin: 0 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.messages .message{
+    padding: 0.6rem 1rem;
+    border-radius: var(--card-border-radius);
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-left: 4px solid var(--color-primary);
+    font-size: 0.9rem;
+}
+.messages .message.success{ border-left-color: var(--color-success); }
+.messages .message.error{ border-left-color: var(--color-danger); }
+
+/* ---- Explore / Following tabs ---- */
+.feed-tabs{
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 1rem 1rem;
+}
+.feed-tab{
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    background: var(--color-white);
+    color: var(--color-muted);
+    font-weight: 600;
+}
+.feed-tab.active{
+    background: var(--color-primary);
+    color: var(--color-black);
+}
+
+/* ---- Buttons that look like bare icons (like, comment, delete) ---- */
+.inline-form{
+    display: inline;
+}
+.icon-button{
+    background: transparent;
+    cursor: pointer;
+    font-size: inherit;
+    color: var(--color-dark);
+    padding: 0;
+}
+.middle .feed .interaction-buttons{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.middle .feed .interaction-buttons .bi-chat{
+    margin-left: 0.75rem;
+}
+
+/* ---- Comments on the post page ---- */
+.comments{
+    background: var(--color-white);
+    color: var(--color-dark);
+    border-radius: var(--card-border-radius);
+    padding: var(--card-padding);
+    margin: 0 1rem 1rem;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.09);
+    font-size: 0.85rem;
+}
+.comments h4{
+    margin-bottom: 0.8rem;
+}
+.comments .comment{
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+}
+.comments .comment-body{
+    flex: 1;
+}
+.comments .comment .icon-button{
+    color: var(--color-danger);
+}
+.comment-form{
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+    margin-top: 1rem;
+}
+.comment-form textarea{
+    flex: 1;
+    resize: vertical;
+    background: var(--color-light);
+    color: var(--color-dark);
+    border-radius: var(--card-border-radius);
+    padding: 0.6rem 1rem;
+    font-family: inherit;
+}
+
+/* ---- Follower / following lists ---- */
+.people-list-title{
+    margin: 0 1rem 1rem;
+    color: var(--color-dark);
+}
+.profile-details a{
+    color: inherit;
+}

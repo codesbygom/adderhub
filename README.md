@@ -240,9 +240,14 @@ matches what this project is pinned to, so no version juggling is needed.
 9. Hit the green **Reload** button on the Web tab, then visit
    `https://<your-username>.pythonanywhere.com`.
 
-The free tier's SQLite database resets if the account goes idle for too long
-and isn't shared across reloads reliably — fine for a portfolio demo, but
-swap in PythonAnywhere's free MySQL database for anything longer-lived.
+Also set `DJANGO_CSRF_TRUSTED_ORIGINS=https://<your-username>.pythonanywhere.com`
+in the WSGI file. With `DJANGO_DEBUG=False` the app refuses to start on the dev
+secret key or empty `DJANGO_ALLOWED_HOSTS`, forces HTTPS and sets secure cookies.
+The Next.js `frontend/` can't run on PythonAnywhere; host it elsewhere (e.g.
+Vercel) with `BACKEND_URL` pointing at the PythonAnywhere URL.
+
+SQLite is fine for a portfolio demo; use PythonAnywhere's MySQL for anything
+longer-lived.
 
 ## Known limitations
 

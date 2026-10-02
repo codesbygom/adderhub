@@ -280,3 +280,20 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@adderhub.local')
+
+
+# Production hardening: only active when DJANGO_DEBUG=False (e.g. on
+# PythonAnywhere), so local development is unaffected.
+if not DEBUG:
+    from django.core.exceptions import ImproperlyConfigured
+    if 'insecure' in SECRET_KEY:
+        raise ImproperlyConfigured('Set DJANGO_SECRET_KEY to a real random value when DJANGO_DEBUG=False.')
+    if not ALLOWED_HOSTS:
+        raise ImproperlyConfigured('Set DJANGO_ALLOWED_HOSTS when DJANGO_DEBUG=False.')
+    # PythonAnywhere terminates TLS in front of the app and forwards this header.
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SSL_REDIRECT', 'True') == 'True'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    # Raise once HTTPS works (e.g. 31536000); HSTS is hard to undo, so opt-in.
+    SECURE_HSTS_SECONDS = int(os.environ.get('DJANGO_HSTS_SECONDS') or 0)

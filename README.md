@@ -13,6 +13,18 @@ The name is a nod to the adder (*Vipera berus*), one of the few snakes with
 genuinely social behaviour (shared winter dens, documented companion
 preference) — and, not coincidentally, `add` + `-er`.
 
+## Preview
+
+![AdderHub overview](portfolio-previews/01-cover.png)
+
+![Explore and Following feeds](portfolio-previews/02-feed.png)
+
+![Profiles and follow lists](portfolio-previews/03-profiles.png)
+
+![Staff admin panel](portfolio-previews/04-admin-panel.png)
+
+![JWT REST API with Swagger docs](portfolio-previews/05-rest-api.png)
+
 ## Features
 
 - **Web app** (Django templates): sign up / log in, "forgot password"

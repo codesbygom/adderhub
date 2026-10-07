@@ -124,7 +124,18 @@ _image_extension_validator = FileExtensionValidator(allowed_extensions=['jpg', '
 @require_POST
 def upload_image(request):
     """Handles the avatar/background drag-and-drop uploader on the profile
-    page (see static/js/profile.js) -- a plain AJAX endpoint, not a form."""
+    page (see static/js/profile.js) -- a plain AJAX endpoint, not a form.
+    POSTing remove=profile_img|background_img resets that image to the default."""
+    remove = request.POST.get('remove')
+    if remove in ('profile_img', 'background_img'):
+        field = request.user._meta.get_field(remove)
+        current = getattr(request.user, remove)
+        if current and current.name != field.default:
+            current.delete(save=False)
+        setattr(request.user, remove, field.default)
+        request.user.save(update_fields=[remove])
+        return JsonResponse({'ok': True})
+
     if 'profile_img' in request.FILES:
         field_name = 'profile_img'
     elif 'background_img' in request.FILES:

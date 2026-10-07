@@ -33,6 +33,19 @@ function setupUploader(kind){
         crop.load(file);
     }
 
+    // Remove: back to the default picture/banner
+    overlay.querySelector('[data-remove]').addEventListener('click', async () => {
+        if(!confirm('Remove this image and use the default?')) return;
+        const formData = new FormData();
+        formData.append('remove', kind === 'avatar' ? 'profile_img' : 'background_img');
+        const res = await fetch(overlay.dataset.uploadUrl, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value },
+            body: formData,
+        });
+        if(res.ok) location.reload();
+    });
+
     overlay.querySelector('[data-save]').addEventListener('click', async () => {
         if(!hasFile) return;
         const blob = await crop.blob();

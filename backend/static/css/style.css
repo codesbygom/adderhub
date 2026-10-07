@@ -1235,3 +1235,9 @@ nav .search-bar button i{
 .profile-details a{
     color: inherit;
 }
+
+/* "Remove" in the avatar/banner dialog: resets to the default image */
+.upload-actions .btn-danger{
+    color: var(--color-danger);
+    border: 1px solid var(--color-danger);
+}

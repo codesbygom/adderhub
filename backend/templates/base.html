@@ -43,8 +43,8 @@
                         <img src="{{request.user.profile_img.url}}" alt="profpic">
                     </div>
                     <div class="handle">
-                        <h4>{{request.user.first_name}}
-                            {{request.user.last_name}}
+                        <h4>{{ request.user.first_name|default:"" }}
+                            {{ request.user.last_name|default:"" }}
                         </h4>
                         <p class="text-muted">
                             @{{request.user.username}}

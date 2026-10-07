@@ -17,7 +17,7 @@
                         </a>
                         <div class="profile-marg">
                             <div class="">
-                                <p class="profile-name">{{q.first_name}} {{q.last_name}}</p>
+                                <p class="profile-name">{{ q.first_name|default:"" }} {{ q.last_name|default:"" }}</p>
                                 <span>
                                     <a href="{% url 'profile' username=q.username %}">@{{q.username}}</a>
                                 </span>

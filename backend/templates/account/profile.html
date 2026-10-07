@@ -25,7 +25,7 @@
                     </div>
                     <div class="profile-marg">
                         <div class="">
-                            <p class="profile-name">{{object.first_name}} {{object.last_name}}</p>
+                            <p class="profile-name">{{ object.first_name|default:"" }} {{ object.last_name|default:"" }}</p>
                             <span>@{{object.username}}</span>
                         </div>
                     </div>

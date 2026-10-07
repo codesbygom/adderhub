@@ -1064,6 +1064,31 @@ nav .search-bar button i{
     justify-content: center;
 }
 
+/* Keep the dialog inside the viewport: the overlay scrolls instead of pushing
+   Save/Cancel off-screen, and the crop area shrinks to leave room for them. */
+.upload-overlay{
+    overflow-y: auto;
+    justify-content: safe center;
+    padding: 1rem;
+}
+
+.upload-box,
+.upload-actions{
+    max-width: 100%;
+    flex-shrink: 0;
+}
+
+.upload-box .crop-stage,
+.upload-box .preview{
+    max-height: 40vh;
+}
+
+/* once an image is picked, the drop-hint icon/text only waste height */
+.upload-overlay.has-image .upload-box > i,
+.upload-overlay.has-image .upload-box > p{
+    display: none;
+}
+
 /* Round crop guide for the avatar */
 #upload-overlay-avatar .cropper-view-box,
 #upload-overlay-avatar .cropper-face{

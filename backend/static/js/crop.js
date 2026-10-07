@@ -31,6 +31,17 @@ window.AdderCrop = {
                     responsive: true,
                 });
                 if (tools) tools.hidden = false;
+                overlay.classList.add('has-image');
+            },
+            // drop the image so the dialog opens empty next time
+            reset() {
+                cropper?.destroy();
+                cropper = null;
+                if (img.src) URL.revokeObjectURL(img.src);
+                img.removeAttribute('src');
+                img.hidden = true;
+                if (tools) tools.hidden = true;
+                overlay.classList.remove('has-image');
             },
             setAspect(ratio) {
                 cropper?.setAspectRatio(ratio);

@@ -33,8 +33,20 @@ function setupPostUploader(){
         crop.setAspect(parseFloat(btn.dataset.aspect));
     }));
 
+    // Cancel, backdrop click and Esc all discard image and caption so the next open starts empty
+    function close(){
+        overlay.hidden = true;
+        hasFile = false;
+        input.value = '';
+        caption.value = '';
+        crop.reset();
+        overlay.querySelectorAll('[data-aspect]').forEach(b => b.classList.toggle('selected', b.dataset.aspect === '1'));
+    }
+
     openBtn.addEventListener('click', () => overlay.hidden = false);
-    overlay.querySelector('[data-close]').addEventListener('click', () => overlay.hidden = true);
+    overlay.querySelector('[data-close]').addEventListener('click', close);
+    overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape' && !overlay.hidden) close(); });
 
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));

@@ -5,8 +5,18 @@ function setupUploader(kind){
     const crop = AdderCrop.attach(overlay, kind === 'avatar' ? { aspect: 1, maxSize: 600 } : { aspect: 3, maxSize: 1800 });
     let hasFile = false;
 
+    // Cancel, backdrop click and Esc all discard the pick so the next open starts empty
+    function close(){
+        overlay.hidden = true;
+        hasFile = false;
+        input.value = '';
+        crop.reset();
+    }
+
     document.querySelector(`[data-target="${kind}"]`).addEventListener('click', () => overlay.hidden = false);
-    overlay.querySelector('[data-close]').addEventListener('click', () => overlay.hidden = true);
+    overlay.querySelector('[data-close]').addEventListener('click', close);
+    overlay.addEventListener('click', e => { if(e.target === overlay) close(); });
+    document.addEventListener('keydown', e => { if(e.key === 'Escape' && !overlay.hidden) close(); });
 
     dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
     dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));

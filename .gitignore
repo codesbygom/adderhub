@@ -2,7 +2,10 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,venv,virtualenv,visualstudiocode
 
 ###Arash Ignores
-media
+backend/media/**
+!backend/media/*/
+!backend/media/profile_images/default.png
+!backend/media/background_images/default.png
 Logo/
 backend/staticfiles
 .claude/
@@ -20,7 +23,6 @@ __pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
-media
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
